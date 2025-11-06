@@ -1,0 +1,124 @@
+"use client";
+
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled ? 'bg-background/95 backdrop-blur-md border-b border-border/50' : 'bg-transparent'
+    }`}>
+      <nav className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo / Site Title */}
+          <Link href="/" className="flex items-center space-x-2">
+            <span className="text-2xl">✨</span>
+            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+              Starseed Oracle
+            </span>
+          </Link>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-1">
+            <Link href="/">
+              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                Home
+              </Button>
+            </Link>
+            <Link href="/about">
+              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                About
+              </Button>
+            </Link>
+            <Link href="/download">
+              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                Download
+              </Button>
+            </Link>
+            <Link href="/support">
+              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                Support
+              </Button>
+            </Link>
+
+            {/* Divider */}
+            <div className="w-px h-6 bg-border/50 mx-2" />
+
+            {/* Auth Buttons */}
+            <Link href="/signin">
+              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground ml-2">
+                Sign Up
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-primary/10 transition-colors"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {mobileMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12"></path>
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+              )}
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div className={`${mobileMenuOpen ? 'block' : 'hidden'} md:hidden border-t border-border/50 bg-background/95 backdrop-blur-md`}>
+        <div className="px-6 py-4 space-y-2">
+          <Link href="/" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            Home
+          </Link>
+          <Link href="/about" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            About
+          </Link>
+          <Link href="/download" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            Download
+          </Link>
+          <Link href="/support" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            Support
+          </Link>
+          <div className="pt-2 border-t border-border/50">
+            <Link href="/signin" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+              Sign In
+            </Link>
+            <Link href="/signup" className="block px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-center mt-2">
+              Sign Up
+            </Link>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
