@@ -2,11 +2,16 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +21,27 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Check for user session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -57,17 +83,40 @@ export default function Header() {
             {/* Divider */}
             <div className="w-px h-6 bg-border/50 mx-2" />
 
-            {/* Auth Buttons */}
-            <Link href="/signin">
-              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground ml-2">
-                Sign Up
-              </Button>
-            </Link>
+            {/* Auth Section */}
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user.user_metadata?.avatar_url} />
+                  <AvatarFallback className="bg-primary/20">
+                    {user.email?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm text-foreground/80">
+                  {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                </span>
+                <Button
+                  onClick={handleSignOut}
+                  variant="ghost"
+                  className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Link href="/signin">
+                  <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground ml-2">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -110,12 +159,36 @@ export default function Header() {
             Support
           </Link>
           <div className="pt-2 border-t border-border/50">
-            <Link href="/signin" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
-              Sign In
-            </Link>
-            <Link href="/signup" className="block px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-center mt-2">
-              Sign Up
-            </Link>
+            {user ? (
+              <>
+                <div className="flex items-center space-x-3 px-4 py-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.user_metadata?.avatar_url} />
+                    <AvatarFallback className="bg-primary/20">
+                      {user.email?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm text-foreground/80">
+                    {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                  </span>
+                </div>
+                <button
+                  onClick={handleSignOut}
+                  className="block w-full px-4 py-2 text-left rounded-lg hover:bg-primary/10 transition-colors"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/signin" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+                  Sign In
+                </Link>
+                <Link href="/signup" className="block px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-center mt-2">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
