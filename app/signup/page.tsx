@@ -81,7 +81,7 @@ export default function SignUp() {
                   input: 'bg-background/50',
                 },
               }}
-              providers={['google', 'apple']}
+              providers={['google']}
               redirectTo={`${siteUrl}/auth/callback`}
               onlyThirdPartyProviders={false}
               magicLink={true}

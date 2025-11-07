@@ -41,6 +41,8 @@ export default function Header() {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    // Redirect to signin page after signout
+    window.location.href = '/signin';
   };
 
   return (
@@ -86,6 +88,11 @@ export default function Header() {
             {/* Auth Section */}
             {user ? (
               <div className="flex items-center space-x-3">
+                <Link href="/dashboard">
+                  <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                    Dashboard
+                  </Button>
+                </Link>
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user.user_metadata?.avatar_url} />
                   <AvatarFallback className="bg-primary/20">
