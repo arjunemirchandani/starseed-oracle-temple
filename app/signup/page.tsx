@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
@@ -13,10 +13,13 @@ export default function SignUp() {
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
 
-  // Get the site URL for redirects
-  const siteUrl = process.env.NODE_ENV === 'production'
-    ? 'https://starseed-oracle-temple.fly.dev'
-    : 'http://localhost:3000';
+  // Get the site URL for redirects - dynamically from window location
+  const [siteUrl, setSiteUrl] = useState('');
+
+  useEffect(() => {
+    // Use window.location.origin to get the current domain
+    setSiteUrl(window.location.origin);
+  }, []);
 
   return (
     <div className="min-h-screen cosmic-gradient relative overflow-hidden pt-24">
