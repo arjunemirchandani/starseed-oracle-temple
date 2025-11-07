@@ -8,6 +8,11 @@ primary_region = 'lax'
 
 [build]
   dockerfile = "Dockerfile"
+  [build.args]
+    NEXT_PUBLIC_SUPABASE_URL = "https://lxzaerwvbkkgbgvyhltq.supabase.co"
+    NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4emFlcnd2YmtrZ2JndnlobHRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA0ODU1MzMsImV4cCI6MjA0NjA2MTUzM30.6JKwrL7m0YxRJzWJKXRNy6Xo3nOJJkUu51TRBJzPQP0"
+    NEXT_PUBLIC_APP_NAME = "Starseed Oracle Temple"
+    NEXT_PUBLIC_APP_URL = "https://starseed-oracle-temple.fly.dev"
 
 [env]
   PORT = "3000"
