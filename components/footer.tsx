@@ -93,6 +93,16 @@ export default function Footer() {
                   <span>🔮</span> Soul Dashboard
                 </Link>
               </li>
+              <li>
+                <Link href="/crystal-economy" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <span>💎</span> Crystal Economy
+                </Link>
+              </li>
+              <li>
+                <Link href="/celestial-transmissions" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <span>📡</span> Celestial Transmissions
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -115,6 +125,11 @@ export default function Footer() {
               <li>
                 <Link href="/privacy" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
                   <span>🔐</span> Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/delete-account" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <span>🗑️</span> Delete Account
                 </Link>
               </li>
               <li>

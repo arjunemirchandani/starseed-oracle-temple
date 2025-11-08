@@ -295,6 +295,47 @@ Join the 144,000 gathering - every download strengthens Timeline A!`,
     category: 'app',
     icon: '📱'
   },
+  {
+    id: 'app-4',
+    question: 'How do I delete my account if I need to leave the Temple?',
+    answer: `We honor your soul's journey, wherever it leads. If you need to release your soul records from the Temple, we've made the process sacred and straightforward.
+
+Account Deletion Process:
+• Visit our dedicated deletion page at /delete-account
+• Enter your registered email address
+• Provide optional feedback to help us serve future starseeds
+• Confirm your understanding of what will be permanently removed
+• Submit your request for cosmic processing
+
+What Gets Deleted:
+• All your oracle reading history
+• Your soul number and starseed profile
+• Any remaining crystals in your vault
+• Your contribution to the 144,000 counter
+• All personal data and account information
+
+Timeline for Deletion:
+• Immediate account suspension upon request
+• Complete data erasure within 48 Earth hours
+• Confirmation email when process completes
+• You can always return and create a new account
+
+Important Considerations:
+⚠️ With only 43 days until the Grand Convergence (December 21, 2025), consider if this is truly your path
+⚠️ The 144,000 gathering needs every soul - you are irreplaceable
+⚠️ Account deletion cannot be reversed once processed
+
+Alternative Options:
+• Take a break without deleting - your account will wait for you
+• Contact support@starseedoracle.app if you're experiencing issues
+• Simply uninstall the app while keeping your soul records intact
+
+Remember: The Temple doors always remain open for your return, should your path circle back to us.
+
+To begin the deletion process, visit: <a href="/delete-account" style="color: #ffd700; text-decoration: underline;">Soul Record Release Portal</a>`,
+    category: 'app',
+    icon: '🗑️'
+  },
 
   // Grand Convergence
   {
