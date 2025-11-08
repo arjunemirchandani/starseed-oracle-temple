@@ -81,9 +81,9 @@ export default function Header() {
                 FAQ
               </Button>
             </Link>
-            <Link href="/support">
+            <Link href="/contact">
               <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
-                Support
+                Contact
               </Button>
             </Link>
 
@@ -170,8 +170,8 @@ export default function Header() {
           <Link href="/faq" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
             FAQ
           </Link>
-          <Link href="/support" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
-            Support
+          <Link href="/contact" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            Contact
           </Link>
           <div className="pt-2 border-t border-border/50">
             {user ? (
