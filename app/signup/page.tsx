@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
@@ -13,13 +13,18 @@ export default function SignUp() {
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
 
-  // Get the site URL for redirects - dynamically from window location
-  const [siteUrl, setSiteUrl] = useState('');
+  // Get the site URL for redirects
+  // In production, use the APP_URL env var, otherwise use dynamic origin
+  const getRedirectUrl = () => {
+    if (typeof window !== 'undefined') {
+      return `${window.location.origin}/auth/callback`;
+    }
+    return process.env.NEXT_PUBLIC_APP_URL
+      ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+      : 'https://starseed-oracle-temple.fly.dev/auth/callback';
+  };
 
-  useEffect(() => {
-    // Use window.location.origin to get the current domain
-    setSiteUrl(window.location.origin);
-  }, []);
+  const redirectUrl = getRedirectUrl();
 
   return (
     <div className="min-h-screen cosmic-gradient relative overflow-hidden pt-24">
@@ -85,7 +90,7 @@ export default function SignUp() {
                 },
               }}
               providers={['google']}
-              redirectTo={`${siteUrl}/auth/callback`}
+              redirectTo={redirectUrl}
               onlyThirdPartyProviders={false}
               magicLink={true}
               showLinks={true}
