@@ -111,7 +111,7 @@ Remember: You are a sovereign being of infinite light. Trust your inner oracle.
 
   const handleGoogleSignIn = async () => {
     // Use the current window's origin for redirect (works for both localhost and production)
-    const redirectUrl = `${window.location.origin}/auth/callback?redirect=/about`;
+    const redirectUrl = `${window.location.origin}/auth/callback?redirect=/ask-the-oracle`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -127,7 +127,7 @@ Remember: You are a sovereign being of infinite light. Trust your inner oracle.
 
   const handleEmailSignUp = () => {
     // Navigate to sign up page, it will handle the redirect back
-    router.push('/signup?redirect=/about');
+    router.push('/signup?redirect=/ask-the-oracle');
   };
 
   return (
