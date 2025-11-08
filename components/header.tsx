@@ -76,6 +76,11 @@ export default function Header() {
                 Download
               </Button>
             </Link>
+            <Link href="/faq">
+              <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
+                FAQ
+              </Button>
+            </Link>
             <Link href="/support">
               <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
                 Support
@@ -161,6 +166,9 @@ export default function Header() {
           </Link>
           <Link href="/download" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
             Download
+          </Link>
+          <Link href="/faq" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            FAQ
           </Link>
           <Link href="/support" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
             Support
