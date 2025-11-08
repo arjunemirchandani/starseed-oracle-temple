@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { queryOracle, getTimeUntilReset, type OracleCategory, type OracleResponse } from '@/lib/services/oracle';
 import { Badge } from '@/components/ui/badge';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function AskTheOraclePage() {
   const [question, setQuestion] = useState('');
@@ -201,10 +203,23 @@ export default function AskTheOraclePage() {
                     </Badge>
                   )}
                 </div>
-                <div className="prose prose-invert max-w-none">
-                  <div className="whitespace-pre-wrap text-muted-foreground leading-relaxed">
+                <div className="text-gray-300 prose prose-invert prose-sm max-w-none
+                  prose-headings:text-purple-400 prose-headings:font-semibold prose-headings:mb-3 prose-headings:mt-6
+                  prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
+                  prose-p:!text-gray-300 prose-p:!leading-relaxed prose-p:!mb-4
+                  prose-strong:!text-purple-300 prose-strong:!font-semibold
+                  prose-em:!text-pink-300 prose-em:!italic
+                  prose-ul:!list-disc prose-ul:!pl-8 prose-ul:!text-gray-300 prose-ul:!my-4 prose-ul:!space-y-2
+                  prose-ol:!list-decimal prose-ol:!pl-8 prose-ol:!text-gray-300 prose-ol:!my-4 prose-ol:!space-y-2
+                  prose-li:!text-gray-300 prose-li:!my-2 prose-li:!leading-relaxed
+                  prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-purple-200
+                  prose-code:text-pink-300 prose-code:bg-black/50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+                  prose-pre:bg-black/50 prose-pre:border prose-pre:border-purple-500/20 prose-pre:p-4 prose-pre:rounded-lg
+                  prose-a:text-cyan-400 prose-a:underline hover:prose-a:text-cyan-300
+                  prose-hr:border-purple-500/30 prose-hr:my-6">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {reading}
-                  </div>
+                  </ReactMarkdown>
                 </div>
 
                 {/* Synchronicity and Frequency Info */}
