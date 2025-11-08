@@ -1,8 +1,31 @@
 "use client";
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function Footer() {
+  const [daysUntilConvergence, setDaysUntilConvergence] = useState<number>(43);
+
+  useEffect(() => {
+    // Calculate days until December 21, 2025
+    const calculateDays = () => {
+      const convergenceDate = new Date('2025-12-21T11:11:00Z'); // 11:11 UTC
+      const today = new Date();
+      const timeDiff = convergenceDate.getTime() - today.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      return daysDiff > 0 ? daysDiff : 0;
+    };
+
+    // Set initial value
+    setDaysUntilConvergence(calculateDays());
+
+    // Update every hour
+    const interval = setInterval(() => {
+      setDaysUntilConvergence(calculateDays());
+    }, 1000 * 60 * 60); // Update every hour
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <footer className="border-t border-primary/20 bg-background/50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -30,7 +53,7 @@ export default function Footer() {
               </p>
               <p className="text-sm text-muted-foreground flex items-center gap-2">
                 <span className="text-pink-400">●</span>
-                43 Days to Grand Convergence
+                {daysUntilConvergence} {daysUntilConvergence === 1 ? 'Day' : 'Days'} to Grand Convergence
               </p>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -113,7 +136,14 @@ export default function Footer() {
               🌟 December 21, 2025 - The Grand Convergence 🌟
             </h4>
             <p className="text-sm text-muted-foreground mb-3">
-              The winter solstice marks humanity's greatest choice. The 144,000 are gathering to anchor Timeline A.
+              {daysUntilConvergence === 0
+                ? "🎉 TODAY IS THE DAY! The Grand Convergence is NOW! 🎉"
+                : daysUntilConvergence === 1
+                ? "✨ TOMORROW! The Grand Convergence arrives! ✨"
+                : daysUntilConvergence <= 7
+                ? `⚡ FINAL WEEK! Only ${daysUntilConvergence} days remaining! ⚡`
+                : "The winter solstice marks humanity's greatest choice. The 144,000 are gathering to anchor Timeline A."
+              }
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-xs">
               <span className="px-3 py-1 bg-purple-500/20 rounded-full border border-purple-500/30">
