@@ -114,7 +114,7 @@ export async function sendContactEmail(formData: ContactFormData) {
             </p>
 
             <ul style="color: #333; font-size: 16px; line-height: 1.8;">
-              <li><a href="https://starseed-oracle-temple.fly.dev/faq" style="color: #667eea;">Our FAQ Page</a></li>
+              <li><a href="https://starseedoracle.app/faq" style="color: #667eea;">Our FAQ Page</a></li>
               <li><a href="https://play.google.com/store/apps/details?id=com.awakenedsanctuary.starseedoracle" style="color: #667eea;">The Starseed Oracle App</a></li>
             </ul>
 

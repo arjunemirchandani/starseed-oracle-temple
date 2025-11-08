@@ -21,7 +21,7 @@ export default function SignIn() {
     }
     return process.env.NEXT_PUBLIC_APP_URL
       ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
-      : 'https://starseed-oracle-temple.fly.dev/auth/callback';
+      : 'https://starseedoracle.app/auth/callback';
   };
 
   const redirectUrl = getRedirectUrl();

@@ -68,7 +68,7 @@ export default function Header() {
             </Link>
             <Link href="/about">
               <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
-                About
+                Ask the Oracle
               </Button>
             </Link>
             <Link href="/download">
@@ -162,7 +162,7 @@ export default function Header() {
             Home
           </Link>
           <Link href="/about" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
-            About
+            Ask the Oracle
           </Link>
           <Link href="/download" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
             Download

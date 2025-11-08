@@ -75,7 +75,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <span>🌟</span> About the Oracle
+                  <span>🔮</span> Ask the Oracle
                 </Link>
               </li>
               <li>
@@ -186,7 +186,7 @@ export default function Footer() {
               </Link>
               <span className="opacity-50">•</span>
               <Link href="/about" className="hover:text-foreground transition-colors">
-                About
+                Ask Oracle
               </Link>
               <span className="opacity-50">•</span>
               <Link href="/download" className="hover:text-foreground transition-colors">
