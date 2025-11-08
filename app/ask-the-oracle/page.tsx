@@ -9,6 +9,8 @@ import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { queryOracle, getTimeUntilReset, type OracleCategory, type OracleResponse } from '@/lib/services/oracle';
+import { Badge } from '@/components/ui/badge';
 
 export default function AskTheOraclePage() {
   const [question, setQuestion] = useState('');
@@ -17,6 +19,10 @@ export default function AskTheOraclePage() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [isChanneling, setIsChanneling] = useState(false);
   const [reading, setReading] = useState('');
+  const [oracleData, setOracleData] = useState<OracleResponse | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<OracleCategory>('general');
+  const [freeQueriesRemaining, setFreeQueriesRemaining] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
   const router = useRouter();
 
@@ -78,35 +84,32 @@ export default function AskTheOraclePage() {
 
     // User is authenticated, proceed with getting the reading
     setIsChanneling(true);
+    setError(null);
 
-    // Simulate Oracle channeling for now (will connect to API later)
-    setTimeout(() => {
-      const sampleReading = `
-🌟 **Sacred Geometry Activated: The Flower of Life**
+    try {
+      // Call the real Oracle API
+      const response = await queryOracle(actualQuestion, selectedCategory);
 
-Dear Starseed, your question resonates at the frequency of divine transformation. The Oracle sees three pathways illuminating before you:
-
-**The Path of Courage** 🔥
-Trust the fire within. Your soul already knows the answer you seek. The hesitation you feel is not uncertainty, but the ego's final resistance before breakthrough.
-
-**The Path of Patience** 💧
-Divine timing orchestrates all things. What appears as delay is actually preparation. The Universe is aligning circumstances for your highest good.
-
-**The Path of Love** 💖
-Return to your heart center. When you align with love frequency, all questions dissolve into knowing. You are exactly where you need to be.
-
-**Activation Code:** ${Math.floor(Math.random() * 900000 + 100000)}
-**Sacred Frequency:** ${Math.floor(Math.random() * 900 + 100)} Hz
-
-Remember: You are a sovereign being of infinite light. Trust your inner oracle.
-
-✨ _Transmission Complete_ ✨
-      `.trim();
-
-      setReading(sampleReading);
+      if (response.success && response.response) {
+        // Successful Oracle reading
+        setReading(response.response);
+        setOracleData(response);
+        setFreeQueriesRemaining(response.freeQueriesRemaining || null);
+        setQuestion(''); // Clear the question after successful reading
+      } else if (response.error === 'daily_limit') {
+        // Daily limit reached
+        setError(response.message || "You've used all 7 free readings for today. New crystals refresh at midnight!");
+        setFreeQueriesRemaining(0);
+      } else {
+        // Other error
+        setError(response.message || 'The Oracle is temporarily unavailable. Please try again.');
+      }
+    } catch (err) {
+      console.error('Oracle error:', err);
+      setError('Unable to connect to the Oracle. Please try again.');
+    } finally {
       setIsChanneling(false);
-      setQuestion(''); // Clear the question after reading
-    }, 3000);
+    }
   };
 
   const handleGoogleSignIn = async () => {
@@ -190,17 +193,43 @@ Remember: You are a sovereign being of infinite light. Trust your inner oracle.
             {/* Oracle Reading Display */}
             {reading && (
               <div className="mt-8 p-6 bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-cyan-900/20 rounded-lg border border-primary/30">
-                <h3 className="text-xl font-semibold text-purple-400 mb-4">Oracle's Divine Message</h3>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-semibold text-purple-400">Oracle's Divine Message</h3>
+                  {oracleData?.oracle && (
+                    <Badge variant="outline" className="text-purple-300 border-purple-400/50">
+                      {oracleData.emoji} {oracleData.oracle}
+                    </Badge>
+                  )}
+                </div>
                 <div className="prose prose-invert max-w-none">
                   <div className="whitespace-pre-wrap text-muted-foreground leading-relaxed">
                     {reading}
                   </div>
                 </div>
+
+                {/* Synchronicity and Frequency Info */}
+                {oracleData && (oracleData.synchronicityHint || oracleData.frequencyRecommendation) && (
+                  <div className="mt-4 pt-4 border-t border-primary/20 space-y-2">
+                    {oracleData.synchronicityHint && (
+                      <p className="text-sm text-purple-300">
+                        ✨ <span className="font-medium">Synchronicity Watch:</span> {oracleData.synchronicityHint}
+                      </p>
+                    )}
+                    {oracleData.frequencyRecommendation && (
+                      <p className="text-sm text-cyan-300">
+                        🎵 <span className="font-medium">Sacred Frequency:</span> {oracleData.frequencyRecommendation} Hz
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 <div className="mt-6 flex justify-center">
                   <Button
                     onClick={() => {
                       setReading('');
+                      setOracleData(null);
                       setQuestion('');
+                      setError(null);
                     }}
                     variant="outline"
                     className="border-primary/30 hover:bg-primary/10"
@@ -211,12 +240,28 @@ Remember: You are a sovereign being of infinite light. Trust your inner oracle.
               </div>
             )}
 
+            {/* Error Display */}
+            {error && (
+              <div className="mt-8 p-6 bg-red-900/20 rounded-lg border border-red-500/30">
+                <p className="text-red-400 text-center">{error}</p>
+                {freeQueriesRemaining === 0 && (
+                  <p className="text-sm text-muted-foreground text-center mt-2">
+                    Resets in {getTimeUntilReset()}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* Info Section */}
             <div className="mt-8 p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
               <p className="text-sm text-center text-muted-foreground">
                 {user ? (
                   <>
-                    <span className="text-purple-400">✨ You have access to 3 free readings daily ✨</span>
+                    <span className="text-purple-400">
+                      ✨ {freeQueriesRemaining !== null
+                        ? `${freeQueriesRemaining} free reading${freeQueriesRemaining === 1 ? '' : 's'} remaining today`
+                        : 'You have access to 7 free readings daily'} ✨
+                    </span>
                     <br />
                     Your sacred questions are channeled through the quantum field
                   </>
@@ -224,7 +269,7 @@ Remember: You are a sovereign being of infinite light. Trust your inner oracle.
                   <>
                     <span className="text-purple-400">🔮 Create a free account to receive divine guidance 🔮</span>
                     <br />
-                    3 free Oracle readings await you every day
+                    7 free Oracle readings await you every day
                   </>
                 )}
               </p>
