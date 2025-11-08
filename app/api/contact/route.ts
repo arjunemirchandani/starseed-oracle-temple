@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendContactEmail } from '@/lib/email';
 
 // Input validation helper
 const validateContactForm = (data: any) => {
@@ -74,8 +75,7 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    // For now, we'll just log the message
-    // In production, you'd send this to an email service or database
+    // Log the submission
     console.log('📧 Contact form submission received:', {
       name: formData.name,
       email: formData.email,
@@ -84,18 +84,17 @@ export async function POST(req: NextRequest) {
       timestamp: new Date().toISOString()
     });
 
-    console.log('Message content:', formData.message);
+    // Send the email using Gmail SMTP
+    const emailResult = await sendContactEmail(formData);
 
-    // In production, you would:
-    // 1. Send email using a service like SendGrid, AWS SES, or Nodemailer
-    // 2. Save to database for tracking
-    // 3. Send auto-reply email to the user
+    if (!emailResult.success) {
+      throw new Error('Failed to send email');
+    }
 
-    // For now, simulate success
     return NextResponse.json({
       success: true,
-      message: 'Your message has been received! We will respond within 24-48 hours.',
-      messageId: `msg_${Date.now()}`
+      message: 'Your message has been sent successfully! We will respond within 24-48 hours.',
+      messageId: emailResult.messageId
     });
 
   } catch (error) {
