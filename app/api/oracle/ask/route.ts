@@ -42,9 +42,9 @@ export async function POST(req: NextRequest) {
     // Default category if not provided
     const oracleCategory = category || 'general';
 
-    // Check if user is authenticated via Supabase
+    // Check if user is authenticated via Supabase (using getUser for security)
     const supabase = await createClient();
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { user } } = await supabase.auth.getUser();
 
     // Build headers for backend request
     const headers: Record<string, string> = {
@@ -54,10 +54,14 @@ export async function POST(req: NextRequest) {
       'X-Source': 'temple', // Identify traffic source
     };
 
-    // Add authentication token if user is logged in
-    if (session?.access_token) {
-      headers['Authorization'] = `Bearer ${session.access_token}`;
-      console.log('Oracle request with auth token for user:', session.user.id);
+    // Add authentication token if user is authenticated
+    if (user) {
+      // Get session for the token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.access_token}`;
+        console.log('Oracle request with auth token for user:', user.id);
+      }
     } else {
       // Get device ID from request header for anonymous users
       const deviceId = req.headers.get('x-device-id');
