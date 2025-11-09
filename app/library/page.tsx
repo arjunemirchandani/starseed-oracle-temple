@@ -83,9 +83,10 @@ export default function LibraryPage() {
 
       const currentPage = loadMore ? page + 1 : 1;
 
-      // Fetch from the backend API
+      // Fetch from the backend API - using the Pocket Portal backend
+      const backendUrl = process.env.NEXT_PUBLIC_POCKET_PORTAL_BACKEND_URL || 'https://api.pocketportal.app';
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/oracle/history?page=${currentPage}&limit=12${
+        `${backendUrl}/api/oracle/history?page=${currentPage}&limit=12${
           selectedCategory !== 'all' ? `&category=${selectedCategory}` : ''
         }`,
         {
