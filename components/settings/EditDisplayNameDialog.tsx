@@ -41,7 +41,7 @@ export function EditDisplayNameDialog({
       setValidationError(null);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setValidationError(error.errors[0]?.message || 'Invalid input');
+        setValidationError(error.issues[0]?.message || 'Invalid input');
       }
     }
   };
@@ -52,7 +52,7 @@ export function EditDisplayNameDialog({
       updateDisplayNameSchema.parse({ display_name: displayName });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setValidationError(error.errors[0]?.message || 'Invalid input');
+        setValidationError(error.issues[0]?.message || 'Invalid input');
         return;
       }
     }
