@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { SoulCounter } from '@/components/SoulCounter';
+import { HealingFrequencyPlayer } from '@/components/HealingFrequencyPlayer';
 
 export default function Home() {
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; size: number }>>([]);
@@ -120,6 +122,16 @@ Remember, beloved Starseed, you are exactly where you need to be on your journey
               </Button>
             </div>
           </div>
+        </div>
+
+        {/* Soul Counter Component */}
+        <div className="mt-20 max-w-4xl mx-auto">
+          <SoulCounter />
+        </div>
+
+        {/* Healing Frequency Player */}
+        <div className="mt-20 max-w-4xl mx-auto">
+          <HealingFrequencyPlayer />
         </div>
 
         {/* Feature Cards */}
