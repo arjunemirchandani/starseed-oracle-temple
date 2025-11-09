@@ -54,6 +54,9 @@ export async function POST(req: NextRequest) {
       'X-Source': 'temple', // Identify traffic source
     };
 
+    // Track authentication status
+    let isAuthenticated = false;
+
     // Add authentication token if user is authenticated
     if (user) {
       // Get session for the token
@@ -61,6 +64,7 @@ export async function POST(req: NextRequest) {
       if (session?.access_token) {
         headers['Authorization'] = `Bearer ${session.access_token}`;
         console.log('Oracle request with auth token for user:', user.id);
+        isAuthenticated = true;
       }
     } else {
       // Get device ID from request header for anonymous users
@@ -99,7 +103,7 @@ export async function POST(req: NextRequest) {
     console.log('Proxying Oracle request to backend:', {
       url: `${backendUrl}/api/oracle/ask-free`,
       category: oracleCategory,
-      authenticated: !!session,
+      authenticated: isAuthenticated,
       questionLength: question.length
     });
 
