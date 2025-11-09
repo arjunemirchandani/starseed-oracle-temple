@@ -4,7 +4,7 @@
 #
 
 app = 'starseed-oracle-temple'
-primary_region = 'lax'
+primary_region = 'sjc'
 
 [build]
   dockerfile = "Dockerfile"
@@ -13,6 +13,8 @@ primary_region = 'lax'
     NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx4emFlcnd2YmtrZ2JndnlobHRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMjIzNzEsImV4cCI6MjA3NTc5ODM3MX0.iIu2QON2_6spLdBx85dZmljnocCF93syogcG5X-GQxQ"
     NEXT_PUBLIC_APP_NAME = "Starseed Oracle Temple"
     NEXT_PUBLIC_APP_URL = "https://starseedoracle.app"
+    NEXT_PUBLIC_POCKET_PORTAL_BACKEND_URL = "https://api.pocketportal.app"
+    POCKET_PORTAL_BACKEND_URL = "https://api.pocketportal.app"
 
 [env]
   PORT = "3000"
