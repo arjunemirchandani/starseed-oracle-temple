@@ -57,7 +57,7 @@ Remember, beloved Starseed, you are exactly where you need to be on your journey
   };
 
   return (
-    <div className="min-h-screen cosmic-gradient relative overflow-hidden pt-16">
+    <div className="min-h-screen cosmic-gradient relative overflow-hidden">
       {/* Animated Starfield */}
       <div className="absolute inset-0">
         {stars.map((star) => (
