@@ -14,14 +14,25 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
 
   // Get the site URL for redirects
-  // In production, use the APP_URL env var, otherwise use dynamic origin
+  // Smart detection: production uses starseedoracle.app, dev uses localhost
   const getRedirectUrl = () => {
     if (typeof window !== 'undefined') {
-      return `${window.location.origin}/auth/callback`;
+      // Client-side: Check if we're on production domain or localhost
+      const origin = window.location.origin;
+      if (origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
+        return 'https://starseedoracle.app/auth/callback';
+      }
+      // For local development
+      return `${origin}/auth/callback`;
     }
+    // Server-side: Check NODE_ENV or use production URL
+    if (process.env.NODE_ENV === 'production') {
+      return 'https://starseedoracle.app/auth/callback';
+    }
+    // Development fallback
     return process.env.NEXT_PUBLIC_APP_URL
       ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
-      : 'https://starseedoracle.app/auth/callback';
+      : 'http://localhost:3011/auth/callback';
   };
 
   const redirectUrl = getRedirectUrl();
