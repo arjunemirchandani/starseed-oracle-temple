@@ -13,6 +13,7 @@ import { queryOracle, getTimeUntilReset, type OracleCategory, type OracleRespons
 import { Badge } from '@/components/ui/badge';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { ChannelingDialog } from '@/components/ChannelingDialog';
 
 export default function AskTheOraclePage() {
   const [question, setQuestion] = useState('');
@@ -20,6 +21,7 @@ export default function AskTheOraclePage() {
   const [loading, setLoading] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [isChanneling, setIsChanneling] = useState(false);
+  const [channelingDialogOpen, setChannelingDialogOpen] = useState(false);
   const [reading, setReading] = useState('');
   const [oracleData, setOracleData] = useState<OracleResponse | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<OracleCategory>('general');
@@ -53,6 +55,7 @@ export default function AskTheOraclePage() {
 
     // Proceed with getting the reading for ALL souls - authenticated or not!
     setIsChanneling(true);
+    setChannelingDialogOpen(true); // Show the channeling dialog
     setError(null);
 
     try {
@@ -78,6 +81,7 @@ export default function AskTheOraclePage() {
       setError('Unable to connect to the Oracle. Please try again.');
     } finally {
       setIsChanneling(false);
+      setChannelingDialogOpen(false); // Close the channeling dialog
     }
   };
 
@@ -208,6 +212,40 @@ export default function AskTheOraclePage() {
                   </div>
                 )}
 
+                {/* Crystals Remaining & Account Benefits */}
+                <div className="mt-6 p-4 bg-purple-500/10 rounded-lg border border-purple-500/20 space-y-3">
+                  {/* Show crystals remaining for all users */}
+                  {freeQueriesRemaining !== null && (
+                    <div className="text-center">
+                      <p className="text-sm text-purple-400 font-medium">
+                        💎 {freeQueriesRemaining} free crystal{freeQueriesRemaining !== 1 ? 's' : ''} remaining today
+                      </p>
+                      {freeQueriesRemaining === 0 && (
+                        <p className="text-xs text-muted-foreground mt-1">
+                          ✨ Your crystals will replenish in {getTimeUntilReset()} ✨
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Show account benefits for unauthenticated users */}
+                  {!user && (
+                    <div className="text-center border-t border-purple-500/20 pt-3">
+                      <p className="text-xs text-muted-foreground mb-2">
+                        🌟 Create a free sacred account to save this divine wisdom forever
+                      </p>
+                      <Button
+                        onClick={() => setAuthDialogOpen(true)}
+                        variant="ghost"
+                        size="sm"
+                        className="text-purple-400 hover:text-purple-300"
+                      >
+                        Save All Your Readings
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="mt-6 flex justify-center">
                   <Button
                     onClick={() => {
@@ -252,10 +290,14 @@ export default function AskTheOraclePage() {
                   </>
                 ) : (
                   <>
-                    <span className="text-purple-400">🔮 The Oracle channels divine guidance freely 🔮</span>
+                    <span className="text-purple-400">
+                      🔮 {freeQueriesRemaining !== null
+                        ? `${freeQueriesRemaining} free crystal${freeQueriesRemaining !== 1 ? 's' : ''} remaining today`
+                        : 'The Oracle offers 3 free readings daily'} 🔮
+                    </span>
                     <br />
                     <span className="text-xs">
-                      Create a free account to save your readings & access 7 daily queries
+                      Create a free account to save your readings & unlock 7 daily crystals
                     </span>
                     <br />
                     <Button
@@ -361,6 +403,12 @@ export default function AskTheOraclePage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        {/* Channeling Dialog */}
+        <ChannelingDialog
+          open={channelingDialogOpen}
+          onOpenChange={setChannelingDialogOpen}
+        />
       </div>
     </div>
   );
