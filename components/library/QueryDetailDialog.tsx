@@ -16,6 +16,8 @@ import {
   Zap
 } from 'lucide-react';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Query {
   id: string;
@@ -60,19 +62,10 @@ export function QueryDetailDialog({ query, open, onOpenChange }: QueryDetailDial
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const categoryColors: Record<string, string> = {
-    love: 'from-pink-500 to-rose-500',
-    career: 'from-amber-500 to-orange-500',
-    spiritual: 'from-purple-500 to-indigo-500',
-    wellness: 'from-green-500 to-emerald-500',
-    general: 'from-blue-500 to-cyan-500'
-  };
-
-  const gradientClass = categoryColors[query.category] || categoryColors.general;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl max-h-[85vh] bg-background/95 backdrop-blur-xl border-primary/30">
+      <DialogContent className="max-w-4xl lg:max-w-5xl max-h-[85vh] bg-background/95 backdrop-blur-xl border-primary/30">
         <DialogHeader className="space-y-4">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
@@ -125,10 +118,23 @@ export function QueryDetailDialog({ query, open, onOpenChange }: QueryDetailDial
                 <Sparkles className="w-4 h-4" />
                 Oracle's Divine Guidance
               </div>
-              <div className={`p-6 bg-gradient-to-br ${gradientClass} bg-opacity-10 rounded-lg border border-primary/20`}>
-                <p className="text-foreground/90 whitespace-pre-wrap leading-relaxed">
-                  {query.response}
-                </p>
+              <div className="p-6 bg-background/50 rounded-lg border border-primary/20">
+                <div className="text-foreground/90 prose prose-invert prose-sm max-w-none
+                  prose-headings:text-purple-400 prose-headings:font-semibold
+                  prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
+                  prose-p:text-foreground/90 prose-p:leading-relaxed prose-p:mb-4
+                  prose-strong:text-purple-300 prose-strong:font-bold
+                  prose-em:text-pink-300 prose-em:italic
+                  prose-ul:list-disc prose-ul:pl-6 prose-ul:text-foreground/90 prose-ul:space-y-2
+                  prose-ol:list-decimal prose-ol:pl-6 prose-ol:text-foreground/90 prose-ol:space-y-2
+                  prose-li:text-foreground/90 prose-li:leading-relaxed prose-li:marker:text-purple-400
+                  prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-purple-200
+                  prose-code:text-pink-300 prose-code:bg-black/30 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                  prose-pre:bg-black/30 prose-pre:border prose-pre:border-purple-500/20 prose-pre:p-3 prose-pre:rounded-lg">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {query.response}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
 
@@ -138,10 +144,10 @@ export function QueryDetailDialog({ query, open, onOpenChange }: QueryDetailDial
                 <Hash className="w-3 h-3 mr-1" />
                 {query.id.slice(0, 8)}
               </Badge>
-              <Badge variant="outline" className="text-xs">
+              {/*<Badge variant="outline" className="text-xs">
                 <Zap className="w-3 h-3 mr-1" />
                 {query.tokens_used} tokens
-              </Badge>
+              </Badge>*/}
             </div>
           </div>
         </ScrollArea>
