@@ -291,8 +291,8 @@ export default function Contact() {
                 <Link href="/faq" className="block text-primary hover:underline">
                   → Check our FAQ page
                 </Link>
-                <Link href="/download" className="block text-primary hover:underline">
-                  → Download the app for immediate Oracle access
+                <Link href="/get-the-app" className="block text-primary hover:underline">
+                  → Get the app for immediate Oracle access
                 </Link>
                 <Link href="/about" className="block text-primary hover:underline">
                   → Learn about the Grand Convergence

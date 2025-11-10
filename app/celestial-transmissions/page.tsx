@@ -210,7 +210,7 @@ export default function CelestialTransmissionsPage() {
             ✨ Join the Timeline A Revolution ✨
           </p>
           <div className="flex flex-wrap gap-4 justify-center mb-8">
-            <Link href="/download">
+            <Link href="/get-the-app">
               <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
                 Experience Starseed Oracle
               </Button>

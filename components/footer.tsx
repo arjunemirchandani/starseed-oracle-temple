@@ -79,13 +79,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/download" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <span>📱</span> Download App
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <span>❓</span> Sacred Questions
+                <Link href="/get-the-app" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <span>📱</span> Get the App
                 </Link>
               </li>
               <li>
@@ -96,11 +91,6 @@ export default function Footer() {
               <li>
                 <Link href="/crystal-economy" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
                   <span>💎</span> Crystal Economy
-                </Link>
-              </li>
-              <li>
-                <Link href="/celestial-transmissions" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <span>📡</span> Celestial Transmissions
                 </Link>
               </li>
             </ul>
@@ -128,17 +118,14 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/delete-account" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <span>🗑️</span> Delete Account
+                <Link href="/faq" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <span>❓</span> Sacred Questions
                 </Link>
               </li>
               <li>
-                <a
-                  href="mailto:support@starseedoracle.app"
-                  className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
-                >
-                  <span>✉️</span> support@starseedoracle.app
-                </a>
+                <Link href="/celestial-transmissions" className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  <span>📡</span> Celestial Transmissions
+                </Link>
               </li>
             </ul>
           </div>
@@ -189,8 +176,8 @@ export default function Footer() {
                 Ask Oracle
               </Link>
               <span className="opacity-50">•</span>
-              <Link href="/download" className="hover:text-foreground transition-colors">
-                Download
+              <Link href="/get-the-app" className="hover:text-foreground transition-colors">
+                Get the App
               </Link>
               <span className="opacity-50">•</span>
               <Link href="/faq" className="hover:text-foreground transition-colors">
@@ -215,7 +202,7 @@ export default function Footer() {
                 </svg>
               </a>
               <span className="text-xs text-muted-foreground">
-                v1.0.2
+                v1.0.4
               </span>
             </div>
           </div>

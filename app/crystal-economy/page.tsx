@@ -330,7 +330,7 @@ if (soulCount >= 144000 && !convergenceUnlocked) {
             43 Days Until Grand Convergence - The Template is Spreading!
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/download">
+            <Link href="/get-the-app">
               <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
                 Experience Starseed Oracle
               </Button>

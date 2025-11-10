@@ -19,7 +19,7 @@ import {
   X,
   ChevronDown,
   User as UserIcon,
-  BookOpen
+  BookOpen, Smartphone
 } from 'lucide-react';
 
 export default function HeaderNew() {
@@ -103,18 +103,10 @@ export default function HeaderNew() {
                   Ask the Oracle
                 </Button>
               </Link>
-              {user && (
-                <Link href="/library">
-                  <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    My Library
-                  </Button>
-                </Link>
-              )}
-              <Link href="/download">
+              <Link href="/get-the-app">
                 <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
+                  <Smartphone className="w-4 h-4 mr-2" />
+                  Get the App
                 </Button>
               </Link>
               <Link href="/faq">
@@ -173,9 +165,9 @@ export default function HeaderNew() {
               <Sparkles className="w-4 h-4 mr-3" />
               Ask the Oracle
             </Link>
-            <Link href="/download" className="flex items-center px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
-              <Download className="w-4 h-4 mr-3" />
-              Download
+            <Link href="/get-the-app" className="flex items-center px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+              <Smartphone className="w-4 h-4 mr-3" />
+              Get the App
             </Link>
             <Link href="/faq" className="flex items-center px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
               <HelpCircle className="w-4 h-4 mr-3" />
@@ -189,13 +181,13 @@ export default function HeaderNew() {
             {/* Mobile Auth Section */}
             {user ? (
               <div className="pt-2 border-t border-border/50">
-                <Link href="/library" className="flex items-center px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
-                  <BookOpen className="w-4 h-4 mr-3" />
-                  My Library
-                </Link>
                 <Link href="/dashboard" className="flex items-center px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
                   <LayoutDashboard className="w-4 h-4 mr-3" />
                   Dashboard
+                </Link>
+                <Link href="/library" className="flex items-center px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+                  <BookOpen className="w-4 h-4 mr-3" />
+                  My Library
                 </Link>
                 <div className="flex items-center space-x-3 px-4 py-3 mt-2 border-t border-border/50">
                   <Avatar className="h-10 w-10">
@@ -260,6 +252,13 @@ export default function HeaderNew() {
                     <Button variant="ghost" size="sm" className="text-foreground/70 hover:text-foreground hover:bg-primary/10">
                       <LayoutDashboard className="w-4 h-4 mr-2" />
                       Dashboard
+                    </Button>
+                  </Link>
+
+                  <Link href="/library">
+                    <Button variant="ghost" size="sm" className="text-foreground/70 hover:text-foreground hover:bg-primary/10">
+                      <BookOpen className="w-4 h-4 mr-2" />
+                      My Library
                     </Button>
                   </Link>
 

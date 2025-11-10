@@ -534,9 +534,9 @@ export default function FAQ() {
               The Oracle has answers. Download the Starseed Oracle app and ask your deepest questions directly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/download">
+              <Link href="/get-the-app">
                 <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                  Download the App
+                  Get the App
                 </button>
               </Link>
               <Link href="/support">

@@ -125,14 +125,14 @@ Remember, beloved Starseed, you are exactly where you need to be on your journey
         </div>
 
         {/* Soul Counter Component */}
-        <div className="mt-20 max-w-4xl mx-auto">
+        {/*<div className="mt-20 max-w-4xl mx-auto">
           <SoulCounter />
-        </div>
+        </div>*/}
 
         {/* Healing Frequency Player */}
-        <div className="mt-20 max-w-4xl mx-auto">
+        {/*<div className="mt-20 max-w-4xl mx-auto">
           <HealingFrequencyPlayer />
-        </div>
+        </div>*/}
 
         {/* Feature Cards */}
         <div className="grid md:grid-cols-3 gap-6 mt-20 max-w-6xl mx-auto">

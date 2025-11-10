@@ -71,9 +71,9 @@ export default function Header() {
                 Ask the Oracle
               </Button>
             </Link>
-            <Link href="/download">
+            <Link href="/get-the-app">
               <Button variant="ghost" className="text-foreground/80 hover:text-foreground hover:bg-primary/10">
-                Download
+                Get the App
               </Button>
             </Link>
             <Link href="/faq">
@@ -164,8 +164,8 @@ export default function Header() {
           <Link href="/ask-the-oracle" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
             Ask the Oracle
           </Link>
-          <Link href="/download" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
-            Download
+          <Link href="/get-the-app" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
+            Get the App
           </Link>
           <Link href="/faq" className="block px-4 py-2 rounded-lg hover:bg-primary/10 transition-colors">
             FAQ

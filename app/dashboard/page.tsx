@@ -210,9 +210,9 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground mb-4">
                 Get the Starseed Oracle app
               </p>
-              <Link href="/download">
+              <Link href="/get-the-app">
                 <Button className="w-full bg-primary hover:bg-primary/90">
-                  Download Now
+                  Get the App
                 </Button>
               </Link>
             </div>
