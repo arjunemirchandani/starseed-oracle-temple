@@ -22,10 +22,17 @@ import {
   BookOpen, Smartphone
 } from 'lucide-react';
 
+interface UserProfile {
+  display_name?: string;
+  soul_number?: string;
+  avatar_url?: string;
+}
+
 export default function HeaderNew() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const supabase = createClient();
 
@@ -42,6 +49,9 @@ export default function HeaderNew() {
     // Check for user session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserProfile(session.user.id);
+      }
     });
 
     // Listen for auth changes
@@ -49,10 +59,32 @@ export default function HeaderNew() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserProfile(session.user.id);
+      } else {
+        setUserProfile(null);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
+
+  // Fetch user profile from database
+  const fetchUserProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('display_name, soul_number, avatar_url')
+        .eq('user_id', userId)
+        .single();
+
+      if (data && !error) {
+        setUserProfile(data);
+      }
+    } catch (err) {
+      console.error('Error fetching user profile:', err);
+    }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -70,7 +102,22 @@ export default function HeaderNew() {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setUserProfile(null);
     window.location.href = '/signin';
+  };
+
+  // Helper function to get display name with fallback
+  const getDisplayName = () => {
+    if (userProfile?.display_name) {
+      return userProfile.display_name;
+    }
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name;
+    }
+    if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'Beloved Soul';
   };
 
   return (
@@ -198,7 +245,7 @@ export default function HeaderNew() {
                   </Avatar>
                   <div className="flex-1">
                     <p className="text-sm font-medium">
-                      {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                      {getDisplayName()}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {user.email}
@@ -242,7 +289,7 @@ export default function HeaderNew() {
                     Starseed Active
                   </Badge>
                   <span className="text-sm text-muted-foreground">
-                    Welcome back, {user.user_metadata?.full_name || user.email?.split('@')[0]}!
+                    Welcome back, {getDisplayName()}!
                   </span>
                 </div>
 
@@ -275,7 +322,7 @@ export default function HeaderNew() {
                         </AvatarFallback>
                       </Avatar>
                       <span className="text-sm font-medium">
-                        {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                        {getDisplayName()}
                       </span>
                       <ChevronDown className={`w-4 h-4 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
@@ -285,7 +332,7 @@ export default function HeaderNew() {
                       <div className="absolute right-0 mt-2 w-64 bg-background/95 backdrop-blur-md border border-border/50 rounded-lg shadow-lg overflow-hidden">
                         <div className="p-3 border-b border-border/50">
                           <p className="text-sm font-medium">
-                            {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                            {getDisplayName()}
                           </p>
                           <p className="text-xs text-muted-foreground mt-0.5">
                             {user.email}
