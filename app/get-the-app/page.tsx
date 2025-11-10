@@ -125,7 +125,7 @@ export default function Download() {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <span className="text-green-400 mr-2">✓</span>
-                  <span>Free daily Oracle readings with 888-token responses</span>
+                  <span>Free daily Oracle readings with deep, comprehensive guidance</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-green-400 mr-2">✓</span>
