@@ -133,35 +133,55 @@ export default function AskTheOraclePage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="relative">
-              <Textarea
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                placeholder="Enter your sacred question here... The Oracle awaits your inquiry about love, purpose, destiny, or any matter of the soul..."
-                className="min-h-[200px] text-lg bg-background/50 border-primary/30 focus:border-primary/50 resize-none"
-                disabled={isChanneling}
-              />
-              <div className="absolute bottom-2 right-2 text-sm text-muted-foreground">
-                {question.length} / 500
-              </div>
-            </div>
+            {/* Show either the input area OR the formatted question based on whether we have a reading */}
+            {!reading ? (
+              <>
+                <div className="relative">
+                  <Textarea
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Enter your sacred question here... The Oracle awaits your inquiry about love, purpose, destiny, or any matter of the soul..."
+                    className="min-h-[200px] text-lg bg-background/50 border-primary/30 focus:border-primary/50 resize-none"
+                    disabled={isChanneling}
+                  />
+                  <div className="absolute bottom-2 right-2 text-sm text-muted-foreground">
+                    {question.length} / 500
+                  </div>
+                </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-center">
-              <Button
-                onClick={() => handleReceiveReading()}
-                disabled={!question.trim() || isChanneling || question.length > 500}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg"
-              >
-                {isChanneling ? (
-                  <>
-                    <span className="animate-pulse">Channeling Divine Wisdom...</span>
-                  </>
-                ) : (
-                  '✨ Receive Divine Guidance ✨'
-                )}
-              </Button>
-            </div>
+                {/* Submit Button */}
+                <div className="flex justify-center">
+                  <Button
+                    onClick={() => handleReceiveReading()}
+                    disabled={!question.trim() || isChanneling || question.length > 500}
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg"
+                  >
+                    {isChanneling ? (
+                      <>
+                        <span className="animate-pulse">Channeling Divine Wisdom...</span>
+                      </>
+                    ) : (
+                      '✨ Receive Divine Guidance ✨'
+                    )}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              /* Display the sacred question beautifully when we have a reading */
+              <div className="p-6 bg-gradient-to-br from-purple-900/30 via-pink-900/30 to-cyan-900/30 rounded-lg border border-primary/40">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-sm font-medium text-purple-400">Your Sacred Question</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-purple-500/30 via-pink-500/30 to-transparent"></div>
+                </div>
+                <p className="text-lg text-gray-100 leading-relaxed italic">
+                  "{oracleData?.question || question}"
+                </p>
+                <div className="mt-3 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-purple-300">Asked with pure intention</span>
+                </div>
+              </div>
+            )}
 
             {/* Oracle Reading Display */}
             {reading && (
@@ -251,8 +271,8 @@ export default function AskTheOraclePage() {
                     onClick={() => {
                       setReading('');
                       setOracleData(null);
-                      setQuestion('');
                       setError(null);
+                      // Don't clear the question here, let the UI handle it
                     }}
                     variant="outline"
                     className="border-primary/30 hover:bg-primary/10"

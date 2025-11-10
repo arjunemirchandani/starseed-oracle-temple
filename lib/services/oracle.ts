@@ -13,6 +13,7 @@ export type OracleCategory = 'love' | 'career' | 'spiritual' | 'wellness' | 'gen
 export interface OracleResponse {
   success: boolean;
   response?: string;
+  question?: string;
   oracle?: string;
   emoji?: string;
   crystalUsed?: boolean;
@@ -171,6 +172,7 @@ export async function queryOracle(
       if (data.error === 'Daily free tier exhausted') {
         return {
           success: false,
+          question: question,
           error: 'daily_limit',
           message: data.message || "You've used all 7 free readings for today. New crystals refresh at midnight!",
           freeQueriesUsed: data.freeQueriesUsed || 7,
@@ -182,6 +184,7 @@ export async function queryOracle(
       console.warn('Oracle API error, using fallback:', data.error);
       return {
         success: true,
+        question: question,
         response: generateFallbackResponse(category),
         oracle: ORACLE_PERSONALITIES[category].name,
         emoji: ORACLE_PERSONALITIES[category].emoji,
@@ -196,6 +199,9 @@ export async function queryOracle(
       data.frequencyRecommendation = extractFrequencyRecommendation(data.response);
     }
 
+    // Add the question to the response
+    data.question = question;
+
     return data;
 
   } catch (error) {
@@ -204,6 +210,7 @@ export async function queryOracle(
     // Return fallback response on network error
     return {
       success: true,
+      question: question,
       response: generateFallbackResponse(category),
       oracle: ORACLE_PERSONALITIES[category].name,
       emoji: ORACLE_PERSONALITIES[category].emoji,
