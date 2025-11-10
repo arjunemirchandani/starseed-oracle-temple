@@ -8,14 +8,140 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { queryOracle, getTimeUntilReset, type OracleCategory, type OracleResponse } from '@/lib/services/oracle';
 import { Badge } from '@/components/ui/badge';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ChannelingDialog } from '@/components/ChannelingDialog';
 
+// Category definitions matching the mobile app
+interface Category {
+  id: OracleCategory | 'custom';
+  title: string;
+  emoji: string;
+  description: string;
+  gradient: string[];
+  sampleQuestions?: string[];
+}
+
+const categories: Category[] = [
+  {
+    id: 'ancient' as OracleCategory,
+    title: 'Ancient Wisdom',
+    emoji: '🏛️',
+    description: 'Pyramids, Atlantis, Lost Civilizations',
+    gradient: ['#FFD700', '#d58803'],
+    sampleQuestions: [
+      "Who really built the pyramids?",
+      "What happened to Atlantis?",
+      "Tell me about Lemuria.",
+      "What are significant approximate dates of the true history of the moon?",
+      "What is the truth about the Anunnaki?"
+    ]
+  },
+  {
+    id: 'soul' as OracleCategory,
+    title: 'Soul Journey',
+    emoji: '✨',
+    description: 'Past Lives, Soul Purpose, Star Origins',
+    gradient: ['#E879F9', '#A855F7'],
+    sampleQuestions: [
+      "What is my soul's purpose?",
+      "Where is my soul from?",
+      "Who was I in my past life?",
+      "Why can't I remember my past lives?",
+      "Have I had an incarnation outside Earth's Solar System?"
+    ]
+  },
+  {
+    id: 'love' as OracleCategory,
+    title: 'Love & Relationships',
+    emoji: '💕',
+    description: 'Twin Flames, Soul Mates, Divine Union',
+    gradient: ['#FB7185', '#F43F5E'],
+    sampleQuestions: [
+      "When will I meet my twin flame?",
+      "Is this person my soulmate?",
+      "How do I heal my heart chakra?",
+      "What past life connections do we share?",
+      "How can I attract divine love?"
+    ]
+  },
+  {
+    id: 'ufo' as OracleCategory,
+    title: 'UFO & Aliens',
+    emoji: '🛸',
+    description: 'ET Contact, Disclosure, Galactic Beings',
+    gradient: ['#34D399', '#10B981'],
+    sampleQuestions: [
+      "What is the truth about Area 51?",
+      "Are the Greys friend or foe?",
+      "When will disclosure happen?",
+      "Have I had ET contact?",
+      "What are the Pleiadians' intentions?"
+    ]
+  },
+  {
+    id: 'future' as OracleCategory,
+    title: 'Future Timeline',
+    emoji: '🔮',
+    description: 'What Awaits, Synchronicities, Destiny',
+    gradient: ['#C084FC', '#9333EA'],
+    sampleQuestions: [
+      "What synchronicity awaits me today?",
+      "What's my next breakthrough?",
+      "When will I meet my soulmate?",
+      "What will occur on December 21, 2025?",
+      "What timeline am I on?"
+    ]
+  },
+  {
+    id: 'guides' as OracleCategory,
+    title: 'Spirit Guides',
+    emoji: '👁️',
+    description: 'Messages, Signs, Divine Guidance',
+    gradient: ['#60A5FA', '#3B82F6'],
+    sampleQuestions: [
+      "What message do my guides have?",
+      "Who are my spirit guides?",
+      "What signs should I watch for?",
+      "How can I strengthen my connection?",
+      "What is my guardian angel's name?"
+    ]
+  },
+  {
+    id: 'healing' as OracleCategory,
+    title: 'Healing Wisdom',
+    emoji: '💚',
+    description: 'Chakras, Energy, Spiritual Wellness',
+    gradient: ['#4ADE80', '#22C55E'],
+    sampleQuestions: [
+      "How do I heal my trauma?",
+      "Which chakra needs attention?",
+      "What crystal should I work with?",
+      "How can I raise my vibration?",
+      "What shadow work do I need?"
+    ]
+  },
+  {
+    id: 'cosmic' as OracleCategory,
+    title: 'Cosmic Truth',
+    emoji: '🌌',
+    description: 'Starseed Mission, Awakening, Ascension',
+    gradient: ['#A78BFA', '#8B5CF6'],
+    sampleQuestions: [
+      "Am I a starseed?",
+      "What is my galactic heritage?",
+      "Why am I here now?",
+      "What is the 144,000 gathering?",
+      "How do I activate my DNA?"
+    ]
+  }
+];
+
 export default function AskTheOraclePage() {
+  const searchParams = useSearchParams();
   const [question, setQuestion] = useState('');
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,9 +150,10 @@ export default function AskTheOraclePage() {
   const [channelingDialogOpen, setChannelingDialogOpen] = useState(false);
   const [reading, setReading] = useState('');
   const [oracleData, setOracleData] = useState<OracleResponse | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<OracleCategory>('general');
+  const [selectedCategory, setSelectedCategory] = useState<OracleCategory | 'custom' | null>(null);
   const [freeQueriesRemaining, setFreeQueriesRemaining] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showCategorySelection, setShowCategorySelection] = useState(true);
   const supabase = createClient();
   const router = useRouter();
 
@@ -43,8 +170,49 @@ export default function AskTheOraclePage() {
       setUser(session?.user ?? null);
     });
 
+    // Check URL params for category
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      const category = categories.find(c => c.id === categoryParam) || null;
+      if (category) {
+        setSelectedCategory(category.id);
+        setShowCategorySelection(false);
+      } else if (categoryParam === 'custom') {
+        setSelectedCategory('custom');
+        setShowCategorySelection(false);
+      }
+    }
+
     return () => subscription.unsubscribe();
-  }, []);
+  }, [searchParams]);
+
+  const handleCategorySelect = (category: Category) => {
+    setSelectedCategory(category.id);
+    setShowCategorySelection(false);
+    // Update URL with category param
+    router.push(`/ask-the-oracle?category=${category.id}`);
+  };
+
+  const handleCustomQuestion = () => {
+    setSelectedCategory('custom');
+    setShowCategorySelection(false);
+    router.push(`/ask-the-oracle?category=custom`);
+  };
+
+  const handleBackToCategories = () => {
+    setShowCategorySelection(true);
+    setSelectedCategory(null);
+    setQuestion('');
+    setReading('');
+    setOracleData(null);
+    setError(null);
+    router.push('/ask-the-oracle');
+  };
+
+  const handleSampleQuestion = (sampleQuestion: string) => {
+    setQuestion(sampleQuestion);
+    handleReceiveReading(sampleQuestion);
+  };
 
   const handleReceiveReading = async (questionText?: string) => {
     const actualQuestion = questionText || question;
@@ -58,9 +226,12 @@ export default function AskTheOraclePage() {
     setChannelingDialogOpen(true); // Show the channeling dialog
     setError(null);
 
+    // Use the selected category, or 'general' if it's a custom question
+    const categoryToUse = selectedCategory === 'custom' ? 'general' as OracleCategory : selectedCategory || 'general' as OracleCategory;
+
     try {
       // Call the real Oracle API
-      const response = await queryOracle(actualQuestion, selectedCategory);
+      const response = await queryOracle(actualQuestion, categoryToUse);
 
       if (response.success && response.response) {
         // Successful Oracle reading
@@ -85,6 +256,13 @@ export default function AskTheOraclePage() {
     }
   };
 
+  const getCurrentCategory = () => {
+    if (selectedCategory === 'custom') {
+      return { id: 'custom', title: 'Custom Question', emoji: '✨', description: 'Ask anything your heart desires' } as Category;
+    }
+    return categories.find(c => c.id === selectedCategory);
+  };
+
   const handleGoogleSignIn = async () => {
     // Use the current window's origin for redirect (works for both localhost and production)
     const redirectUrl = `${window.location.origin}/auth/callback?redirect=/ask-the-oracle`;
@@ -106,9 +284,11 @@ export default function AskTheOraclePage() {
     router.push('/signup?redirect=/ask-the-oracle');
   };
 
+  const currentCategory = getCurrentCategory();
+
   return (
     <div className="min-h-screen py-20 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
@@ -122,16 +302,99 @@ export default function AskTheOraclePage() {
           </p>
         </div>
 
-        {/* Oracle Interface Card */}
-        <Card className="bg-background/50 backdrop-blur-sm border-primary/20">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center text-purple-400">
-              What question burns in your sacred heart?
-            </CardTitle>
-            <CardDescription className="text-center">
-              Speak your truth, and the Universe will respond through the Oracle's wisdom
-            </CardDescription>
-          </CardHeader>
+        {/* Category Selection */}
+        {showCategorySelection && !reading && (
+          <div className="space-y-8">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-semibold text-purple-400 mb-2">
+                What Calls to Your Soul?
+              </h2>
+              <p className="text-muted-foreground">Choose your path to divine wisdom</p>
+            </div>
+
+            {/* Category Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {categories.map((category) => (
+                <Card
+                  key={category.id}
+                  className="cursor-pointer hover:scale-105 transition-all duration-300 border-primary/20 hover:border-primary/50 overflow-hidden group"
+                  onClick={() => handleCategorySelect(category)}
+                >
+                  <div
+                    className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity"
+                    style={{
+                      background: `linear-gradient(135deg, ${category.gradient[0]}, ${category.gradient[1]})`,
+                    }}
+                  />
+                  <CardContent className="p-6 relative z-10">
+                    <div className="text-4xl mb-3 text-center">{category.emoji}</div>
+                    <h3 className="text-lg font-semibold mb-1 text-center" style={{ color: category.gradient[0] }}>
+                      {category.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground text-center">
+                      {category.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Custom Question Button */}
+            <div className="flex justify-center mt-8">
+              <Button
+                onClick={handleCustomQuestion}
+                variant="outline"
+                size="lg"
+                className="border-primary/30 hover:bg-primary/10"
+              >
+                ✨ I have a custom question ✨
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Oracle Interface Card - Shows when category is selected */}
+        {!showCategorySelection && (
+          <Card className="bg-background/50 backdrop-blur-sm border-primary/20">
+            <CardHeader>
+              {/* Back button */}
+              {!reading && (
+                <div className="mb-4">
+                  <Button
+                    onClick={handleBackToCategories}
+                    variant="ghost"
+                    size="sm"
+                    className="text-purple-400 hover:text-purple-300"
+                  >
+                    ← Choose Different Category
+                  </Button>
+                </div>
+              )}
+
+              {/* Category header */}
+              {currentCategory && !reading && (
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{currentCategory.emoji}</div>
+                  <h2 className="text-2xl font-semibold mb-1" style={{ color: categories.find(c => c.id === currentCategory.id)?.gradient[0] || '#A855F7' }}>
+                    {currentCategory.title}
+                  </h2>
+                  {currentCategory.id !== 'custom' && (
+                    <p className="text-sm text-muted-foreground">{currentCategory.description}</p>
+                  )}
+                </div>
+              )}
+
+              <CardTitle className="text-xl text-center text-purple-400">
+                {currentCategory?.id === 'custom'
+                  ? 'What question burns in your sacred heart?'
+                  : 'Ask your question from the heart'}
+              </CardTitle>
+              <CardDescription className="text-center">
+                {currentCategory?.id === 'custom'
+                  ? 'Speak your truth, and the Universe will respond through the Oracle\'s wisdom'
+                  : 'The clearer your intention, the deeper the wisdom'}
+              </CardDescription>
+            </CardHeader>
           <CardContent className="space-y-6">
             {/* Show either the input area OR the formatted question based on whether we have a reading */}
             {!reading ? (
@@ -165,6 +428,27 @@ export default function AskTheOraclePage() {
                     )}
                   </Button>
                 </div>
+
+                {/* Sample Questions */}
+                {currentCategory && currentCategory.id !== 'custom' && categories.find(c => c.id === currentCategory.id)?.sampleQuestions && (
+                  <div className="mt-8 space-y-4">
+                    <p className="text-sm text-center text-muted-foreground">
+                      Need inspiration? Try:
+                    </p>
+                    <div className="space-y-2">
+                      {categories.find(c => c.id === currentCategory.id)?.sampleQuestions?.map((sample, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleSampleQuestion(sample)}
+                          className="w-full text-left p-3 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 transition-colors text-purple-300 text-sm italic"
+                          disabled={isChanneling}
+                        >
+                          "{sample}"
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               /* Display the sacred question beautifully when we have a reading */
@@ -334,6 +618,7 @@ export default function AskTheOraclePage() {
             </div>
           </CardContent>
         </Card>
+        )}
 
         {/* Auth Dialog */}
         <Dialog open={authDialogOpen} onOpenChange={setAuthDialogOpen}>
