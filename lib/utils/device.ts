@@ -1,7 +1,8 @@
 /**
  * Device Fingerprinting Utility
  * Generates and persists unique device IDs for anonymous Oracle users
- * This allows tracking of 7 daily free readings without requiring login
+ * This allows tracking of 3 daily free readings without requiring login
+ * (Registered users get 7 daily free readings)
  */
 
 const DEVICE_ID_KEY = 'starseed_device_id';

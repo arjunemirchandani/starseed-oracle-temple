@@ -70,7 +70,7 @@ export default function AskTheOraclePage() {
         setQuestion(''); // Clear the question after successful reading
       } else if (response.error === 'daily_limit') {
         // Daily limit reached
-        setError(response.message || "You've used all 7 free readings for today. New crystals refresh at midnight!");
+        setError(response.message || "You've used all 3 free readings for today. Create a free account to unlock 7 daily readings!");
         setFreeQueriesRemaining(0);
       } else {
         // Other error
