@@ -5,7 +5,25 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
   const error = requestUrl.searchParams.get('error');
-  const origin = requestUrl.origin;
+  const redirect = requestUrl.searchParams.get('redirect');
+
+  // Fix the origin to handle 0.0.0.0 issue and ensure correct production URL
+  const originalOrigin = requestUrl.origin;
+  let origin = originalOrigin;
+
+  console.log('Auth callback - Original origin:', originalOrigin);
+  console.log('Auth callback - NODE_ENV:', process.env.NODE_ENV);
+  console.log('Auth callback - Full URL:', request.url);
+
+  // In production, always use the correct domain
+  if (process.env.NODE_ENV === 'production' || origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
+    origin = 'https://starseedoracle.app';
+  } else if (origin.includes('0.0.0.0')) {
+    // Replace 0.0.0.0 with localhost for local development
+    origin = origin.replace('0.0.0.0', 'localhost');
+  }
+
+  console.log('Auth callback - Final origin:', origin);
 
   if (error) {
     console.error('OAuth error:', error);
@@ -24,8 +42,9 @@ export async function GET(request: Request) {
 
       console.log('Session established for user:', data.user?.email);
 
-      // Redirect to dashboard after successful authentication
-      return NextResponse.redirect(`${origin}/dashboard`);
+      // Redirect to the specified page or ask-the-oracle as default
+      const redirectPath = redirect || '/ask-the-oracle';
+      return NextResponse.redirect(`${origin}${redirectPath}`);
     } catch (err) {
       console.error('Unexpected error during auth callback:', err);
       return NextResponse.redirect(`${origin}/signin?error=auth_failed`);

@@ -18,7 +18,13 @@ export default function SignIn() {
   const getRedirectUrl = () => {
     if (typeof window !== 'undefined') {
       // Client-side: Check if we're on production domain or localhost
-      const origin = window.location.origin;
+      let origin = window.location.origin;
+
+      // Fix 0.0.0.0 issue - replace with localhost
+      if (origin.includes('0.0.0.0')) {
+        origin = origin.replace('0.0.0.0', 'localhost');
+      }
+
       if (origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
         return 'https://starseedoracle.app/auth/callback';
       }
