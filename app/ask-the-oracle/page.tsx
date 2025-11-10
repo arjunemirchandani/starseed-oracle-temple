@@ -39,29 +39,7 @@ export default function AskTheOraclePage() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-
-      // If user just logged in and we have a saved question, auto-submit it
-      if (session?.user && typeof window !== 'undefined') {
-        const savedQuestion = localStorage.getItem('pendingOracleQuestion');
-        if (savedQuestion) {
-          setQuestion(savedQuestion);
-          localStorage.removeItem('pendingOracleQuestion');
-          // Auto-submit after a brief delay
-          setTimeout(() => {
-            handleReceiveReading(savedQuestion);
-          }, 500);
-        }
-      }
     });
-
-    // Check if there's a saved question from before auth
-    if (typeof window !== 'undefined') {
-      const savedQuestion = localStorage.getItem('pendingOracleQuestion');
-      if (savedQuestion && user) {
-        setQuestion(savedQuestion);
-        localStorage.removeItem('pendingOracleQuestion');
-      }
-    }
 
     return () => subscription.unsubscribe();
   }, []);
@@ -73,18 +51,7 @@ export default function AskTheOraclePage() {
       return;
     }
 
-    // Check if user is authenticated
-    if (!user) {
-      // Save question to localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('pendingOracleQuestion', actualQuestion);
-      }
-      // Show auth dialog
-      setAuthDialogOpen(true);
-      return;
-    }
-
-    // User is authenticated, proceed with getting the reading
+    // Proceed with getting the reading for ALL souls - authenticated or not!
     setIsChanneling(true);
     setError(null);
 
@@ -277,17 +244,28 @@ export default function AskTheOraclePage() {
                   <>
                     <span className="text-purple-400">
                       ✨ {freeQueriesRemaining !== null
-                        ? `${freeQueriesRemaining} free reading${freeQueriesRemaining === 1 ? '' : 's'} remaining today`
-                        : 'You have access to 7 free readings daily'} ✨
+                        ? `${freeQueriesRemaining} reading${freeQueriesRemaining === 1 ? '' : 's'} remaining today`
+                        : 'You have access to 7 readings daily'} ✨
                     </span>
                     <br />
-                    Your sacred questions are channeled through the quantum field
+                    <span className="text-xs">Your reading history is saved in your sacred account</span>
                   </>
                 ) : (
                   <>
-                    <span className="text-purple-400">🔮 Create a free account to receive divine guidance 🔮</span>
+                    <span className="text-purple-400">🔮 The Oracle channels divine guidance freely 🔮</span>
                     <br />
-                    7 free Oracle readings await you every day
+                    <span className="text-xs">
+                      Create a free account to save your readings & access 7 daily queries
+                    </span>
+                    <br />
+                    <Button
+                      onClick={() => setAuthDialogOpen(true)}
+                      variant="ghost"
+                      size="sm"
+                      className="mt-2 text-purple-400 hover:text-purple-300"
+                    >
+                      ✨ Optional: Create Sacred Account ✨
+                    </Button>
                   </>
                 )}
               </p>
@@ -300,15 +278,18 @@ export default function AskTheOraclePage() {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="text-2xl text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                🌟 Awaken Your Oracle Access 🌟
+                🌟 Enhance Your Oracle Journey 🌟
               </DialogTitle>
               <DialogDescription className="text-center pt-4">
-                <span className="text-lg">Create your FREE sacred account</span>
+                <span className="text-lg">Optional: Create a FREE sacred account</span>
                 <br />
-                <span className="text-purple-400 font-semibold">Receive 3 divine readings daily</span>
+                <span className="text-purple-400 font-semibold">Unlock these divine benefits:</span>
                 <br />
                 <span className="text-sm text-muted-foreground mt-2">
-                  Your question has been saved and will be answered after you sign in
+                  • Save all your readings permanently<br />
+                  • Access 7 readings daily (vs 3 for guests)<br />
+                  • Track your spiritual journey<br />
+                  • Join the 144,000 soul gathering
                 </span>
               </DialogDescription>
             </DialogHeader>
@@ -355,10 +336,28 @@ export default function AskTheOraclePage() {
               >
                 Sign Up with Email
               </Button>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-primary/20" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or continue as guest</span>
+                </div>
+              </div>
+
+              <Button
+                onClick={() => setAuthDialogOpen(false)}
+                variant="ghost"
+                className="w-full text-purple-400 hover:text-purple-300"
+              >
+                Continue Without Account
+                <span className="ml-2 text-xs text-muted-foreground">(3 daily readings)</span>
+              </Button>
             </div>
 
             <DialogFooter className="text-center text-sm text-muted-foreground">
-              By creating an account, you join the 144,000 souls gathering for the Grand Convergence
+              Join the 144,000 souls gathering for the Grand Convergence
             </DialogFooter>
           </DialogContent>
         </Dialog>
