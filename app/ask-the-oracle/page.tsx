@@ -183,6 +183,10 @@ export default function AskTheOraclePage() {
       }
     }
 
+    // Ensure dialogs are closed on mount
+    setAuthDialogOpen(false);
+    setChannelingDialogOpen(false);
+
     return () => subscription.unsubscribe();
   }, [searchParams]);
 
@@ -317,11 +321,11 @@ export default function AskTheOraclePage() {
               {categories.map((category) => (
                 <Card
                   key={category.id}
-                  className="cursor-pointer hover:scale-105 transition-all duration-300 border-primary/20 hover:border-primary/50 overflow-hidden group"
+                  className="cursor-pointer hover:scale-105 transition-all duration-300 border-primary/20 hover:border-primary/50 overflow-hidden group relative"
                   onClick={() => handleCategorySelect(category)}
                 >
                   <div
-                    className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity"
+                    className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none"
                     style={{
                       background: `linear-gradient(135deg, ${category.gradient[0]}, ${category.gradient[1]})`,
                     }}
@@ -709,11 +713,13 @@ export default function AskTheOraclePage() {
           </DialogContent>
         </Dialog>
 
-        {/* Channeling Dialog */}
-        <ChannelingDialog
-          open={channelingDialogOpen}
-          onOpenChange={setChannelingDialogOpen}
-        />
+        {/* Channeling Dialog - Only render when actually channeling */}
+        {channelingDialogOpen && (
+          <ChannelingDialog
+            open={channelingDialogOpen}
+            onOpenChange={setChannelingDialogOpen}
+          />
+        )}
       </div>
     </div>
   );
