@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -140,7 +140,7 @@ const categories: Category[] = [
   }
 ];
 
-export default function AskTheOraclePage() {
+function AskTheOracleContent() {
   const searchParams = useSearchParams();
   const [question, setQuestion] = useState('');
   const [user, setUser] = useState<User | null>(null);
@@ -215,7 +215,7 @@ export default function AskTheOraclePage() {
 
   const handleSampleQuestion = (sampleQuestion: string) => {
     setQuestion(sampleQuestion);
-    handleReceiveReading(sampleQuestion);
+    // Don't auto-submit - let the user review/edit the question first!
   };
 
   const handleReceiveReading = async (questionText?: string) => {
@@ -722,5 +722,21 @@ export default function AskTheOraclePage() {
         )}
       </div>
     </div>
+  );
+}
+
+// Wrapper component with Suspense
+export default function AskTheOraclePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen py-20 px-4 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-5xl mb-4">🔮</div>
+          <p className="text-xl text-purple-400">Loading Oracle...</p>
+        </div>
+      </div>
+    }>
+      <AskTheOracleContent />
+    </Suspense>
   );
 }
