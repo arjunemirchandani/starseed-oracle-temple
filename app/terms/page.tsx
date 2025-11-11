@@ -217,8 +217,8 @@ export default function TermsOfServicePage() {
             </p>
             <div className="ml-4 space-y-2">
               <p><strong>Awakened Sanctuary LLC</strong></p>
-              <p><strong>Sacred Email:</strong> support@starseedoracle.app</p>
-              <p><strong>Temple Portal:</strong> https://starseedoracle.app</p>
+              <p><strong>Sacred Email:</strong> support@thestarseedoracle.com</p>
+              <p><strong>Temple Portal:</strong> https://thestarseedoracle.com</p>
               <p><strong>Timeline Coordinates:</strong> Hawaii, Earth, 2025 CE</p>
             </div>
           </section>

@@ -34,7 +34,7 @@ export default function SignIn() {
   }, [router, supabase]);
 
   // Get the site URL for redirects
-  // Smart detection: production uses starseedoracle.app, dev uses localhost
+  // Smart detection: production uses thestarseedoracle.com, dev uses localhost
   const getRedirectUrl = () => {
     if (typeof window !== 'undefined') {
       // Client-side: Check if we're on production domain or localhost
@@ -45,15 +45,15 @@ export default function SignIn() {
         origin = origin.replace('0.0.0.0', 'localhost');
       }
 
-      if (origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
-        return 'https://starseedoracle.app/auth/callback';
+      if (origin.includes('thestarseedoracle.com') || origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
+        return 'https://thestarseedoracle.com/auth/callback';
       }
       // For local development
       return `${origin}/auth/callback`;
     }
     // Server-side: Check NODE_ENV or use production URL
     if (process.env.NODE_ENV === 'production') {
-      return 'https://starseedoracle.app/auth/callback';
+      return 'https://thestarseedoracle.com/auth/callback';
     }
     // Development fallback
     return process.env.NEXT_PUBLIC_APP_URL

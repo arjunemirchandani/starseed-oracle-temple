@@ -242,8 +242,8 @@ export default function Contact() {
                   <p className="text-muted-foreground">
                     For urgent matters, email us directly at:
                   </p>
-                  <a href="mailto:support@starseedoracle.app" className="text-primary hover:underline">
-                    support@starseedoracle.app
+                  <a href="mailto:support@thestarseedoracle.com" className="text-primary hover:underline">
+                    support@thestarseedoracle.com
                   </a>
                 </div>
 

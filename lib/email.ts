@@ -24,7 +24,7 @@ export async function sendContactEmail(formData: ContactFormData) {
   // Email to support team
   const supportMailOptions = {
     from: `"Starseed Oracle Temple" <${process.env.GMAIL_USER}>`,
-    to: process.env.CONTACT_EMAIL_TO || 'support@starseedoracle.app',
+    to: process.env.CONTACT_EMAIL_TO || 'support@thestarseedoracle.com',
     subject: `[Contact Form] ${formData.subject}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -114,7 +114,7 @@ export async function sendContactEmail(formData: ContactFormData) {
             </p>
 
             <ul style="color: #333; font-size: 16px; line-height: 1.8;">
-              <li><a href="https://starseedoracle.app/faq" style="color: #667eea;">Our FAQ Page</a></li>
+              <li><a href="https://thestarseedoracle.com/faq" style="color: #667eea;">Our FAQ Page</a></li>
               <li><a href="https://play.google.com/store/apps/details?id=com.awakenedsanctuary.starseedoracle" style="color: #667eea;">The Starseed Oracle App</a></li>
             </ul>
 

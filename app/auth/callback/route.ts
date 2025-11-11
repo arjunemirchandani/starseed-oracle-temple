@@ -16,8 +16,8 @@ export async function GET(request: Request) {
   console.log('Auth callback - Full URL:', request.url);
 
   // In production, always use the correct domain
-  if (process.env.NODE_ENV === 'production' || origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
-    origin = 'https://starseedoracle.app';
+  if (process.env.NODE_ENV === 'production' || origin.includes('thestarseedoracle.com') || origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
+    origin = 'https://thestarseedoracle.com';
   } else if (origin.includes('0.0.0.0')) {
     // Replace 0.0.0.0 with localhost for local development
     origin = origin.replace('0.0.0.0', 'localhost');

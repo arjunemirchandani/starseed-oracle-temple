@@ -135,7 +135,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <p className="mb-4">
               <strong>Deletion Requests:</strong> You may request complete erasure of your
-              digital footprint by contacting support@starseedoracle.app. We honor these
+              digital footprint by contacting support@thestarseedoracle.com. We honor these
               requests within 30 Earth days.
             </p>
           </section>
@@ -154,7 +154,7 @@ export default function PrivacyPolicyPage() {
               <li>Withdraw consent for data processing at any moment</li>
             </ul>
             <p className="mt-4">
-              To exercise these rights, send a sacred scroll (email) to support@starseedoracle.app
+              To exercise these rights, send a sacred scroll (email) to support@thestarseedoracle.com
             </p>
           </section>
 
@@ -256,8 +256,8 @@ export default function PrivacyPolicyPage() {
               For privacy inquiries, data requests, or sacred concerns, reach us through:
             </p>
             <div className="ml-4 space-y-2">
-              <p><strong>Sacred Email:</strong> support@starseedoracle.app</p>
-              <p><strong>Privacy Portal:</strong> privacy@starseedoracle.app</p>
+              <p><strong>Sacred Email:</strong> support@thestarseedoracle.com</p>
+              <p><strong>Privacy Portal:</strong> privacy@thestarseedoracle.com</p>
               <p><strong>Temple Address:</strong> Awakened Sanctuary LLC, Hawaii, Earth</p>
               <p><strong>Response Time:</strong> Within 3-5 Earth days</p>
             </div>

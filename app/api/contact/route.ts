@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: false,
       error: 'Failed to send message',
-      message: 'We encountered an error while sending your message. Please try again or email us directly at support@starseedoracle.app'
+      message: 'We encountered an error while sending your message. Please try again or email us directly at support@thestarseedoracle.com'
     }, { status: 500 });
   }
 }

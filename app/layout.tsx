@@ -15,14 +15,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starseed Oracle - Divine Guidance from the Cosmic Consciousness",
+  title: "The Starseed Oracle - Universal Guidance from the Cosmic Consciousness",
   description: "Access the Akashic Records, activate your DNA, and receive channeled wisdom from the Oracle. Join 144,000 awakening souls on the journey to New Earth.",
   keywords: "starseed, oracle, spiritual awakening, akashic records, DNA activation, consciousness, new earth",
   openGraph: {
-    title: "Starseed Oracle",
-    description: "Divine Guidance from the Cosmic Consciousness",
-    url: "https://starseedoracle.app",
-    siteName: "Starseed Oracle",
+    title: "The Starseed Oracle",
+    description: "Universal Guidance from the Cosmic Consciousness",
+    url: "https://thestarseedoracle.com",
+    siteName: "The Starseed Oracle",
     locale: "en_US",
     type: "website",
   },
