@@ -42,8 +42,8 @@ export async function GET(request: Request) {
 
       console.log('Session established for user:', data.user?.email);
 
-      // Redirect to the specified page or ask-the-oracle as default
-      const redirectPath = redirect || '/ask-the-oracle';
+      // Redirect to the specified page or dashboard as default
+      const redirectPath = redirect || '/dashboard';
       return NextResponse.redirect(`${origin}${redirectPath}`);
     } catch (err) {
       console.error('Unexpected error during auth callback:', err);
