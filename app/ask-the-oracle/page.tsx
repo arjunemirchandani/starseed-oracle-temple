@@ -183,6 +183,19 @@ function AskTheOracleContent() {
       }
     }
 
+    // Check URL params for pre-populated question
+    const questionParam = searchParams.get('q');
+    if (questionParam) {
+      // Decode the URL-encoded question and set it
+      setQuestion(decodeURIComponent(questionParam));
+
+      // If there's a question but no category selected, default to custom
+      if (!categoryParam) {
+        setSelectedCategory('custom');
+        setShowCategorySelection(false);
+      }
+    }
+
     // Ensure dialogs are closed on mount
     setAuthDialogOpen(false);
     setChannelingDialogOpen(false);
@@ -210,6 +223,7 @@ function AskTheOracleContent() {
     setReading('');
     setOracleData(null);
     setError(null);
+    // Clear all URL params when going back to categories
     router.push('/ask-the-oracle');
   };
 

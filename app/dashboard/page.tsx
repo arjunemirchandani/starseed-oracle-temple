@@ -157,7 +157,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Grand Convergence Countdown */}
-        <Card className="p-6 bg-gradient-to-r from-purple-900/30 to-cyan-900/30 backdrop-blur border-primary/20 mb-8">
+        {/*<Card className="p-6 bg-gradient-to-r from-purple-900/30 to-cyan-900/30 backdrop-blur border-primary/20 mb-8">
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-2">Grand Convergence Countdown</h3>
             <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
@@ -167,7 +167,7 @@ export default function Dashboard() {
               December 21, 2025 • 11:11 UTC
             </p>
           </div>
-        </Card>
+        </Card>*/}
 
         {/* Action Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -259,7 +259,7 @@ export default function Dashboard() {
         </div>
 
         {/* Spiritual Progress Section */}
-        <Card className="mt-8 p-8 bg-card/50 backdrop-blur border-primary/20">
+        {/*<Card className="mt-8 p-8 bg-card/50 backdrop-blur border-primary/20">
           <h3 className="text-2xl font-semibold mb-6 text-center">Your Spiritual Journey</h3>
           <div className="space-y-4">
             <div>
@@ -290,7 +290,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </Card>
+        </Card>*/}
 
         {/* Sacred Message */}
         <div className="mt-12 text-center">
