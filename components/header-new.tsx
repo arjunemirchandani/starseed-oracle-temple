@@ -23,9 +23,15 @@ import {
 } from 'lucide-react';
 
 interface UserProfile {
-  display_name?: string;
-  soul_number?: string;
-  avatar_url?: string;
+  id: string;
+  email: string;
+  display_name: string;
+  soul_number: string;
+  crystal_balance: number;
+  bio: string | null;
+  avatar_url: string | null;
+  starseed_origin: string | null;
+  created_at: string;
 }
 
 export default function HeaderNew() {
@@ -69,20 +75,18 @@ export default function HeaderNew() {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  // Fetch user profile from database
+  // Fetch user profile from API endpoint
   const fetchUserProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .select('display_name, soul_number, avatar_url')
-        .eq('user_id', userId)
-        .single();
+      const response = await fetch('/api/user/profile');
+      const data = await response.json();
 
-      if (data && !error) {
-        setUserProfile(data);
+      if (response.ok && data.profile) {
+        setUserProfile(data.profile);
       }
     } catch (err) {
       console.error('Error fetching user profile:', err);
+      // Silently fail - user will see fallback display name
     }
   };
 
@@ -238,9 +242,9 @@ export default function HeaderNew() {
                 </Link>
                 <div className="flex items-center space-x-3 px-4 py-3 mt-2 border-t border-border/50">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={user.user_metadata?.avatar_url} />
+                    <AvatarImage src={userProfile?.avatar_url || user.user_metadata?.avatar_url} />
                     <AvatarFallback className="bg-primary/20">
-                      {user.email?.charAt(0).toUpperCase()}
+                      {getDisplayName().charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
@@ -316,9 +320,9 @@ export default function HeaderNew() {
                       className="flex items-center space-x-2 px-3 py-1.5 rounded-lg hover:bg-primary/10 transition-colors"
                     >
                       <Avatar className="h-7 w-7">
-                        <AvatarImage src={user.user_metadata?.avatar_url} />
+                        <AvatarImage src={userProfile?.avatar_url || user.user_metadata?.avatar_url} />
                         <AvatarFallback className="bg-primary/20 text-xs">
-                          {user.email?.charAt(0).toUpperCase()}
+                          {getDisplayName().charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <span className="text-sm font-medium">
