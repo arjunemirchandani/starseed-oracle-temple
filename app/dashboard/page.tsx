@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { useIdentifyUser, useTracking } from '@/hooks/use-tracking';
 
 interface UserProfile {
   id: string;
@@ -27,6 +28,14 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
+  const { trackCrystalInterest, trackLibraryAccess } = useTracking();
+
+  // Identify user in PostHog
+  useIdentifyUser(profile ? {
+    id: profile.id,
+    email: profile.email,
+    display_name: profile.display_name
+  } : null);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -180,7 +189,12 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground mb-4">
                 Review and revise your soul agreements
               </p>
-              <Button className="w-full" variant="outline" disabled>
+              <Button
+                className="w-full"
+                variant="outline"
+                disabled
+                onClick={() => trackCrystalInterest('soul_contracts')}
+              >
                 <span className="mr-2">🔒</span> Consciousness Crystal Required
               </Button>
             </div>
@@ -211,7 +225,12 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground mb-4">
                 Discover your cosmic heritage
               </p>
-              <Button className="w-full" variant="outline" disabled>
+              <Button
+                className="w-full"
+                variant="outline"
+                disabled
+                onClick={() => trackCrystalInterest('starseed_origins')}
+              >
                 <span className="mr-2">🔒</span> Consciousness Crystal Required
               </Button>
             </div>
@@ -226,7 +245,12 @@ export default function Dashboard() {
               <p className="text-sm text-muted-foreground mb-4">
                 Verify your Timeline A alignment
               </p>
-              <Button className="w-full" variant="outline" disabled>
+              <Button
+                className="w-full"
+                variant="outline"
+                disabled
+                onClick={() => trackCrystalInterest('timeline_check')}
+              >
                 <span className="mr-2">🔒</span> Consciousness Crystal Required
               </Button>
             </div>
@@ -241,7 +265,10 @@ export default function Dashboard() {
                 View your Oracle reading history
               </p>
               <Link href="/library">
-                <Button className="w-full bg-primary hover:bg-primary/90">
+                <Button
+                  className="w-full bg-primary hover:bg-primary/90"
+                  onClick={() => trackLibraryAccess()}
+                >
                   View History
                 </Button>
               </Link>

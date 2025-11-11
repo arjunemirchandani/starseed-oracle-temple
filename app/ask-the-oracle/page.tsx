@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ChannelingDialog } from '@/components/ChannelingDialog';
+import { useTracking } from '@/hooks/use-tracking';
 
 // Category definitions matching the mobile app
 interface Category {
@@ -156,6 +157,7 @@ function AskTheOracleContent() {
   const [showCategorySelection, setShowCategorySelection] = useState(true);
   const supabase = createClient();
   const router = useRouter();
+  const { trackOracleCategory, trackOracleQuestion } = useTracking();
 
   useEffect(() => {
     // Check for user session
@@ -206,6 +208,8 @@ function AskTheOracleContent() {
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category.id);
     setShowCategorySelection(false);
+    // Track category selection
+    trackOracleCategory(category.id, category.title);
     // Update URL with category param
     router.push(`/ask-the-oracle?category=${category.id}`);
   };
@@ -213,6 +217,8 @@ function AskTheOracleContent() {
   const handleCustomQuestion = () => {
     setSelectedCategory('custom');
     setShowCategorySelection(false);
+    // Track custom question selection
+    trackOracleCategory('custom', 'Custom Question');
     router.push(`/ask-the-oracle?category=custom`);
   };
 
@@ -238,6 +244,9 @@ function AskTheOracleContent() {
     if (!actualQuestion.trim()) {
       return;
     }
+
+    // Track question submission
+    trackOracleQuestion(actualQuestion, selectedCategory || undefined);
 
     // Proceed with getting the reading for ALL souls - authenticated or not!
     setIsChanneling(true);

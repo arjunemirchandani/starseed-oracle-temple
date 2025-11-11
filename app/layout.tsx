@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import HeaderNew from "@/components/header-new";
 import Footer from "@/components/footer";
+import { PHProvider } from './providers';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,11 +39,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <HeaderNew />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <PHProvider>
+          <HeaderNew />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </PHProvider>
       </body>
     </html>
   );
