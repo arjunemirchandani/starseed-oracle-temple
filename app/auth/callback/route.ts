@@ -16,7 +16,13 @@ export async function GET(request: Request) {
   console.log('Auth callback - Full URL:', request.url);
 
   // In production, always use the correct domain
-  if (process.env.NODE_ENV === 'production' || origin.includes('thestarseedoracle.com') || origin.includes('starseedoracle.app') || origin.includes('fly.dev')) {
+  // Check for exact domain matches to prevent concatenation issues
+  if (process.env.NODE_ENV === 'production' ||
+      origin === 'https://thestarseedoracle.com' ||
+      origin === 'https://www.thestarseedoracle.com' ||
+      origin === 'https://starseedoracle.app' ||
+      origin === 'https://www.starseedoracle.app' ||
+      origin.includes('.fly.dev')) {
     origin = 'https://thestarseedoracle.com';
   } else if (origin.includes('0.0.0.0')) {
     // Replace 0.0.0.0 with localhost for local development
