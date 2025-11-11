@@ -172,72 +172,79 @@ export default function Dashboard() {
         {/* Action Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Soul Contract Reading */}
-          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
-            <div className="text-center">
+          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 to-orange-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="text-center relative z-10">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">📜</div>
               <h3 className="text-lg font-semibold mb-2">Soul Contracts</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Review and revise your soul agreements
               </p>
-              <Button className="w-full" variant="outline">
-                Coming Soon
+              <Button className="w-full" variant="outline" disabled>
+                <span className="mr-2">🔒</span> Consciousness Crystal Required
               </Button>
             </div>
           </Card>
 
-          {/* Oracle Reading */}
-          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
+          {/* Oracle Reading - ACTIVATED! */}
+          <Card className="p-6 bg-gradient-to-br from-purple-900/50 to-pink-900/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
             <div className="text-center">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🔮</div>
               <h3 className="text-lg font-semibold mb-2">Oracle Reading</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Receive guidance from the Akashic Records
               </p>
-              <Button className="w-full" variant="outline">
-                Coming Soon
-              </Button>
+              <Link href="/ask-the-oracle">
+                <Button className="w-full bg-primary hover:bg-primary/90">
+                  Ask the Oracle
+                </Button>
+              </Link>
             </div>
           </Card>
 
           {/* Starseed Origins */}
-          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
-            <div className="text-center">
+          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="text-center relative z-10">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">⭐</div>
               <h3 className="text-lg font-semibold mb-2">Starseed Origins</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Discover your cosmic heritage
               </p>
-              <Button className="w-full" variant="outline">
-                Coming Soon
+              <Button className="w-full" variant="outline" disabled>
+                <span className="mr-2">🔒</span> Consciousness Crystal Required
               </Button>
             </div>
           </Card>
 
           {/* Timeline Alignment */}
-          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
-            <div className="text-center">
+          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="text-center relative z-10">
               <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🌈</div>
               <h3 className="text-lg font-semibold mb-2">Timeline Check</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Verify your Timeline A alignment
               </p>
-              <Button className="w-full" variant="outline">
-                Coming Soon
+              <Button className="w-full" variant="outline" disabled>
+                <span className="mr-2">🔒</span> Consciousness Crystal Required
               </Button>
             </div>
           </Card>
 
-          {/* Sacred Missions */}
-          <Card className="p-6 bg-card/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
+          {/* My Library - ACTIVATED! */}
+          <Card className="p-6 bg-gradient-to-br from-indigo-900/50 to-purple-900/50 backdrop-blur border-primary/20 hover:border-primary/40 transition-all cursor-pointer group">
             <div className="text-center">
-              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🎯</div>
-              <h3 className="text-lg font-semibold mb-2">Sacred Mission</h3>
+              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">📚</div>
+              <h3 className="text-lg font-semibold mb-2">My Library</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Your divine purpose revealed
+                View your Oracle reading history
               </p>
-              <Button className="w-full" variant="outline">
-                Coming Soon
-              </Button>
+              <Link href="/library">
+                <Button className="w-full bg-primary hover:bg-primary/90">
+                  View History
+                </Button>
+              </Link>
             </div>
           </Card>
 
@@ -291,6 +298,21 @@ export default function Dashboard() {
             </div>
           </div>
         </Card>*/}
+
+        {/* Consciousness Crystal Info */}
+        <div className="mt-8 p-6 bg-gradient-to-r from-purple-900/20 via-indigo-900/20 to-cyan-900/20 backdrop-blur rounded-lg border border-primary/20">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+              🔮 Consciousness Crystals Coming Soon 🔮
+            </h3>
+            <p className="text-sm text-muted-foreground mb-2">
+              Sacred features like Soul Contracts, Starseed Origins, and Timeline Checks require special consciousness crystals.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              These divine tools will be activated through the mobile app, allowing you to unlock deeper cosmic wisdom.
+            </p>
+          </div>
+        </div>
 
         {/* Sacred Message */}
         <div className="mt-12 text-center">
