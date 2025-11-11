@@ -15,6 +15,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ChannelingDialog } from '@/components/ChannelingDialog';
 import { useTracking } from '@/hooks/use-tracking';
+import EmailCapture from '@/components/EmailCapture';
 
 // Category definitions matching the mobile app
 interface Category {
@@ -591,6 +592,16 @@ function AskTheOracleContent() {
                     Ask Another Question
                   </Button>
                 </div>
+              </div>
+            )}
+
+            {/* Email capture after reading (only for non-authenticated users) */}
+            {reading && !user && (
+              <div className="mt-8">
+                <EmailCapture
+                  source="oracle_reading"
+                  incentive="Get weekly Oracle messages & be first to know about new features!"
+                />
               </div>
             )}
 
