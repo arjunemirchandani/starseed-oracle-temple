@@ -313,7 +313,7 @@ function AskTheOracleContent() {
               <h2 className="text-2xl font-semibold text-purple-400 mb-2">
                 What Calls to Your Soul?
               </h2>
-              <p className="text-muted-foreground">Choose your path to divine wisdom</p>
+              <p className="text-muted-foreground">Choose your path to universal wisdom</p>
             </div>
 
             {/* Category Cards Grid */}
