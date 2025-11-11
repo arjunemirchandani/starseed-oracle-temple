@@ -9,8 +9,21 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 
+interface UserProfile {
+  id: string;
+  email: string;
+  display_name: string;
+  soul_number: string;
+  crystal_balance: number;
+  bio: string | null;
+  avatar_url: string | null;
+  starseed_origin: string | null;
+  created_at: string;
+}
+
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
@@ -24,6 +37,19 @@ export default function Dashboard() {
           return;
         }
         setUser(session.user);
+
+        // Fetch user profile from API
+        try {
+          const response = await fetch('/api/user/profile');
+          const data = await response.json();
+
+          if (response.ok && data.profile) {
+            setProfile(data.profile);
+          }
+        } catch (profileError) {
+          console.error('Error fetching profile:', profileError);
+          // Continue without profile - fallback to user metadata
+        }
       } catch (error) {
         console.error('Error fetching user:', error);
         router.push('/signin');
@@ -92,16 +118,29 @@ export default function Dashboard() {
         <Card className="p-8 bg-card/50 backdrop-blur border-primary/20 mb-8">
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
             <Avatar className="h-24 w-24">
-              <AvatarImage src={user.user_metadata?.avatar_url} />
+              <AvatarImage src={profile?.avatar_url || user.user_metadata?.avatar_url} />
               <AvatarFallback className="bg-primary/20 text-2xl">
-                {user.email?.charAt(0).toUpperCase()}
+                {profile?.display_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl font-bold mb-2">
-                {user.user_metadata?.full_name || 'Divine Soul'}
+                {profile?.display_name || user.user_metadata?.full_name || 'Divine Soul'}
               </h2>
               <p className="text-muted-foreground mb-4">{user.email}</p>
+
+              {/* Soul Number and Crystal Balance if available */}
+              {profile && (
+                <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-3">
+                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-primary/30 text-sm">
+                    # Soul {profile.soul_number}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-primary/30 text-sm">
+                    💎 {profile.crystal_balance.toLocaleString()} Crystals
+                  </span>
+                </div>
+              )}
+
               <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                 <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm">
                   ✨ Starseed Activated
