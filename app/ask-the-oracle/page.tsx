@@ -596,14 +596,14 @@ function AskTheOracleContent() {
             )}
 
             {/* Email capture after reading (only for non-authenticated users) */}
-            {reading && !user && (
+            {/*{reading && !user && (
               <div className="mt-8">
                 <EmailCapture
                   source="oracle_reading"
                   incentive="Get weekly Oracle messages & be first to know about new features!"
                 />
               </div>
-            )}
+            )}*/}
 
             {/* Error Display */}
             {error && (
