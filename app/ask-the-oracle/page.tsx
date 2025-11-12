@@ -638,9 +638,9 @@ function AskTheOracleContent() {
                         : 'The Oracle offers 3 free readings daily'} 🔮
                     </span>
                     <br />
-                    <span className="text-xs">
-                      Create a free account to save your readings & unlock 7 daily crystals
-                    </span>
+                    <div className="text-lg text-white text-center font-semibold mt-5">
+                      Create a free account to save your readings & unlock 7 daily crystals!
+                    </div>
                     <br />
                     <Button
                       onClick={() => setAuthDialogOpen(true)}
@@ -648,7 +648,7 @@ function AskTheOracleContent() {
                       size="sm"
                       className="mt-2 text-purple-400 hover:text-purple-300"
                     >
-                      ✨ Optional: Create Sacred Account ✨
+                      ✨ Create Sacred Account & Join Our Community! ✨
                     </Button>
                   </>
                 )}
