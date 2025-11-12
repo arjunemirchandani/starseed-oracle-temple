@@ -452,7 +452,7 @@ function AskTheOracleContent() {
                         <span className="animate-pulse">Channeling Divine Wisdom...</span>
                       </>
                     ) : (
-                      '✨ Receive Divine Guidance ✨'
+                      '✨ Ask the Oracle ✨'
                     )}
                   </Button>
                 </div>
