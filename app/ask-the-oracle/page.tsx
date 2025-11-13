@@ -268,6 +268,14 @@ function AskTheOracleContent() {
         setOracleData(response);
         setFreeQueriesRemaining(response.freeQueriesRemaining || null);
         setQuestion(''); // Clear the question after successful reading
+
+        // Auto-scroll to top so souls can immediately read the Oracle's response
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }, 100); // Small delay to ensure content is rendered
       } else if (response.error === 'daily_limit') {
         // Daily limit reached - show special dialog for unauthenticated users
         if (!user) {
