@@ -661,7 +661,7 @@ function AskTheOracleContent() {
                       size="sm"
                       className="mt-2 text-purple-400 hover:text-purple-300"
                     >
-                      ✨ Create Sacred Account & Join Our Community! ✨
+                      ✨ Create Free Account  ✨
                     </Button>
                   </>
                 )}

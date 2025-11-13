@@ -2,7 +2,13 @@ import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-  const requestUrl = new URL(request.url);
+  // First, fix any doubled domain issues in the URL itself
+  let cleanUrl = request.url;
+  if (cleanUrl.includes('thestarseedoracle.comthestarseedoracle.com')) {
+    cleanUrl = cleanUrl.replace('thestarseedoracle.comthestarseedoracle.com', 'thestarseedoracle.com');
+  }
+
+  const requestUrl = new URL(cleanUrl);
   const code = requestUrl.searchParams.get('code');
   const error = requestUrl.searchParams.get('error');
   const redirect = requestUrl.searchParams.get('redirect');
@@ -17,16 +23,23 @@ export async function GET(request: Request) {
 
   // In production, always use the correct domain
   // Check for exact domain matches to prevent concatenation issues
+  // Also handle the doubled domain issue
   if (process.env.NODE_ENV === 'production' ||
       origin === 'https://thestarseedoracle.com' ||
       origin === 'https://www.thestarseedoracle.com' ||
       origin === 'https://starseedoracle.app' ||
       origin === 'https://www.starseedoracle.app' ||
-      origin.includes('.fly.dev')) {
+      origin.includes('.fly.dev') ||
+      origin.includes('thestarseedoracle.com')) {
     origin = 'https://thestarseedoracle.com';
   } else if (origin.includes('0.0.0.0')) {
     // Replace 0.0.0.0 with localhost for local development
     origin = origin.replace('0.0.0.0', 'localhost');
+  }
+
+  // Additional check to prevent doubled domains
+  if (origin.includes('thestarseedoracle.comthestarseedoracle.com')) {
+    origin = 'https://thestarseedoracle.com';
   }
 
   console.log('Auth callback - Final origin:', origin);
