@@ -5,6 +5,7 @@ import HeaderNew from "@/components/header-new";
 import Footer from "@/components/footer";
 import { PHProvider } from './providers';
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GaugesAnalytics from "@/components/GaugesAnalytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <GoogleAnalytics />
+        <GaugesAnalytics />
         <PHProvider>
           <HeaderNew />
           <main className="min-h-screen">
