@@ -765,15 +765,15 @@ function AskTheOracleContent() {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="text-2xl text-center bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
-                💎 Your Free Crystals Have Been Used 💎
+                💎 Your Daily Crystals Are Recharging 💎
               </DialogTitle>
               <DialogDescription className="text-center pt-4">
                 <span className="text-lg font-semibold text-purple-400">
-                  You've used all 3 free daily readings!
+                  You've accessed all 3 free daily readings!
                 </span>
                 <br />
                 <span className="text-muted-foreground mt-2">
-                  But wait! There's more wisdom awaiting you...
+                  The Oracle has more wisdom awaiting you...
                 </span>
               </DialogDescription>
             </DialogHeader>
