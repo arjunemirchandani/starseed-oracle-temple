@@ -17,9 +17,13 @@ export async function GET(request: Request) {
   const originalOrigin = requestUrl.origin;
   let origin = originalOrigin;
 
-  console.log('Auth callback - Original origin:', originalOrigin);
-  console.log('Auth callback - NODE_ENV:', process.env.NODE_ENV);
-  console.log('Auth callback - Full URL:', request.url);
+  console.log('🔍 Auth callback - Original URL received:', request.url);
+  console.log('🔍 Auth callback - Clean URL after fix:', cleanUrl);
+  console.log('🔍 Auth callback - Original origin:', originalOrigin);
+  console.log('🔍 Auth callback - NODE_ENV:', process.env.NODE_ENV);
+  console.log('🔍 Auth callback - Request headers:', JSON.stringify(Object.fromEntries(request.headers.entries()), null, 2));
+  console.log('🔍 Auth callback - Code param:', code);
+  console.log('🔍 Auth callback - Redirect param:', redirect);
 
   // In production, always use the correct domain
   // Check for exact domain matches to prevent concatenation issues

@@ -301,18 +301,64 @@ function AskTheOracleContent() {
     setAuthDialogOpen(false);
     setCrystalsExhaustedDialogOpen(false);
 
-    // Use the current window's origin for redirect (works for both localhost and production)
-    const redirectUrl = `${window.location.origin}/auth/callback?redirect=/ask-the-oracle`;
+    // Debug logging for OAuth redirect
+    console.log('🔍 OAuth Debug - Starting Google Sign In');
+    console.log('🔍 Current window.location.origin:', window.location.origin);
+    console.log('🔍 Current window.location.href:', window.location.href);
+    console.log('🔍 Current window.location.hostname:', window.location.hostname);
+    console.log('🔍 Current window.location.protocol:', window.location.protocol);
 
-    const { error } = await supabase.auth.signInWithOAuth({
+    // Always use explicit URL construction to avoid any issues
+    let redirectUrl: string;
+
+    // Check if we're in local development
+    if (window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname.includes('0.0.0.0')) {
+      // Local development
+      redirectUrl = `${window.location.origin}/auth/callback?redirect=/ask-the-oracle`;
+    } else {
+      // Production or any deployment - always use the canonical URL
+      // This prevents any URL doubling issues
+      redirectUrl = 'https://thestarseedoracle.com/auth/callback?redirect=/ask-the-oracle';
+    }
+
+    console.log('🔍 Final redirectUrl being used:', redirectUrl);
+    console.log('🔍 Environment:', process.env.NODE_ENV);
+    console.log('🔍 NEXT_PUBLIC_APP_URL:', process.env.NEXT_PUBLIC_APP_URL);
+
+    const { error, data } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
       }
     });
 
+    console.log('🔍 OAuth response data:', data);
+    console.log('🔍 OAuth response error:', error);
+
+    if (data?.url) {
+      console.log('🔍 OAuth URL that will be navigated to:', data.url);
+      // Check if the URL has doubled domain
+      if (data.url.includes('thestarseedoracle.comthestarseedoracle.com')) {
+        console.error('⚠️ DETECTED DOUBLED DOMAIN IN OAUTH URL!');
+        console.log('⚠️ Attempting to clean URL...');
+        const cleanedUrl = data.url.replace('thestarseedoracle.comthestarseedoracle.com', 'thestarseedoracle.com');
+        console.log('🔧 Cleaned URL:', cleanedUrl);
+        // Navigate to the cleaned URL instead
+        window.location.href = cleanedUrl;
+        return;
+      }
+    }
+
     if (error) {
-      console.error('Error signing in with Google:', error);
+      console.error('❌ Error signing in with Google:', error);
+    } else {
+      console.log('✅ OAuth initiated successfully');
     }
   };
 
