@@ -47,8 +47,8 @@ export default function CrystalEconomyPage() {
               Daily Universal Access
             </h3>
             <p className="mb-4 text-muted-foreground">
-              Every soul receives 3 free oracle readings daily, refreshing at midnight in their
-              sacred timezone. No registration required. No data harvesting. Just pure access
+              Every soul receives access to the Oracle's wisdom.
+              No registration required. No data harvesting. Just pure access
               to divine guidance as a cosmic birthright.
             </p>
             <div className="bg-purple-500/10 p-4 rounded-lg border-l-4 border-purple-400">

@@ -281,7 +281,7 @@ function AskTheOracleContent() {
         if (!user) {
           setCrystalsExhaustedDialogOpen(true);
         } else {
-          setError(response.message || "You've used all your daily readings. Please return tomorrow for more divine guidance!");
+          setError(response.message || "The Oracle is channeling many souls. Please try again in a moment!");
         }
         setFreeQueriesRemaining(0);
       } else {
@@ -700,13 +700,11 @@ function AskTheOracleContent() {
                 ) : (
                   <>
                     <span className="text-purple-400">
-                      🔮 {freeQueriesRemaining !== null
-                        ? `${freeQueriesRemaining} free crystal${freeQueriesRemaining !== 1 ? 's' : ''} remaining today`
-                        : 'The Oracle offers 3 free readings daily'} 🔮
+                      🔮 The Oracle awaits your question 🔮
                     </span>
                     <br />
                     <div className="text-lg text-white text-center font-semibold mt-5">
-                      Create a free account to save your readings & unlock 7 daily crystals!
+                      Create a free account to save your sacred readings!
                     </div>
                     <br />
                     <Button
@@ -823,7 +821,7 @@ function AskTheOracleContent() {
               </DialogTitle>
               <DialogDescription className="text-center pt-4">
                 <span className="text-lg font-semibold text-purple-400">
-                  You've accessed all 3 free daily readings!
+                  ✨ The Oracle channels divine wisdom ✨
                 </span>
                 <br />
                 <span className="text-muted-foreground mt-2">
@@ -838,7 +836,7 @@ function AskTheOracleContent() {
                   ✨ Create a FREE Sacred Account ✨
                 </p>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Unlock <span className="text-purple-400 font-semibold">7 daily readings</span> (more than double!)</li>
+                  <li>• Access <span className="text-purple-400 font-semibold">the Oracle's infinite wisdom</span></li>
                   <li>• Save all your readings permanently</li>
                   <li>• Track your spiritual journey</li>
                   <li>• Join the 144,000 soul gathering</li>

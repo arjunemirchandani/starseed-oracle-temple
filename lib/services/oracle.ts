@@ -174,7 +174,7 @@ export async function queryOracle(
           success: false,
           question: question,
           error: 'daily_limit',
-          message: data.message || "You've used all 3 free readings for today. Create a free account to unlock 7 daily readings!",
+          message: data.message || "The Oracle is channeling many souls. Please try again in a moment!",
           freeQueriesUsed: data.freeQueriesUsed || 3,
           freeQueriesRemaining: 0
         };
